@@ -6,6 +6,7 @@ namespace Core.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
+        bool IsError { get; set; }
         IDictionaryRepository DictionaryRepository { get; }
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
@@ -15,10 +16,13 @@ namespace Core.UnitOfWork
 
         int Complate();
     }
+
     public class UnitOfWork : IUnitOfWork
     {
 
         private readonly DbCoreDataContext _context;
+
+        public bool IsError { get; set; }
 
         public IDictionaryRepository DictionaryRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
@@ -47,7 +51,15 @@ namespace Core.UnitOfWork
 
         public int Complate()
         {
-            return _context.SaveChanges();
+            try
+            {
+                return _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                IsError = true;
+                return -1;
+            }
         }
     }
 }

@@ -1,1 +1,26 @@
-﻿
+﻿/*--------- Icons -----------*/
+
+
+.fa-minus-circle,
+.fa-trash-o {
+    color: #d9534f;
+}
+
+.fa-pencil {
+    color: rgb(239, 239, 15);
+}
+
+.fa-check-circle,
+.fa-plus {
+    color: green;
+}
+
+.fa-check {
+    color: rgb(10, 190, 53);
+}
+
+.fa-user {
+    color: rgb(7, 139, 142)
+}
+
+/*--------- End Icons -----------*/

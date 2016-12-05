@@ -12,3 +12,4 @@ D:\Projects\MVC Projectes\MyBook\Core\bin\Debug\EntityFramework.SqlServer.xml
 D:\Projects\MVC Projectes\MyBook\Core\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Properties.Resources.resources
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.csproj.GenerateResource.Cache
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.InitDatabase.resources
