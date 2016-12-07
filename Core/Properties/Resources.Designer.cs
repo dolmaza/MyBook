@@ -88,6 +88,15 @@ namespace Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ოპერაცია წარმატებით დასრულდა.
+        /// </summary>
+        public static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ნამდვილად გსურთ წაშლა?.
         /// </summary>
         public static string TextConfirmDelete {

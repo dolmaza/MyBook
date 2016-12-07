@@ -157,6 +157,7 @@
     <Content Include="Content\plugins\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="Content\scripts\Dictionary\Index.js" />
     <Content Include="Content\scripts\Permission\Index.js" />
+    <Content Include="Content\scripts\RolePermission\Index.js" />
     <Content Include="Content\scripts\Role\Index.js" />
     <Content Include="Content\scripts\User\Index.js" />
     <Content Include="Global.asax" />
@@ -168,6 +169,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RolePermissionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -175,11 +177,13 @@
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\LayoutViewModel.cs" />
     <Compile Include="Models\PermissionViewModel.cs" />
+    <Compile Include="Models\RolePermissionsViewModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reusables\BaseClasses.cs" />
     <Compile Include="Reusables\Extentions\Extentions.cs" />
+    <Compile Include="Reusables\Filters\BeforePageLoad.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -206,6 +210,9 @@
     <Content Include="Views\Role\_RoleGrid.cshtml" />
     <Content Include="Views\Permission\Index.cshtml" />
     <Content Include="Views\Permission\_PermissionTree.cshtml" />
+    <Content Include="Views\RolePermission\Index.cshtml" />
+    <Content Include="Views\RolePermission\_RolesGrid.cshtml" />
+    <Content Include="Views\RolePermission\_PermissionsTree.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -216,7 +223,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
-    <Folder Include="Reusables\Filters\" />
     <Folder Include="Reusables\Helpers\" />
   </ItemGroup>
   <ItemGroup>

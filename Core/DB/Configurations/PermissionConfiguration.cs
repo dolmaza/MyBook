@@ -16,7 +16,6 @@ namespace Core.DB.Configurations
                 .HasMaxLength(200);
 
             Property(p => p.Url)
-                .IsRequired()
                 .HasMaxLength(200);
 
             Property(p => p.Code)

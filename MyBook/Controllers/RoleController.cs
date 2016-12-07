@@ -21,7 +21,7 @@ namespace MyBook.Controllers
             return View(model);
         }
 
-        [Route("roles/list", Name = "RolesGrid")]
+        [Route("roles/grid", Name = "RolesGrid")]
         public ActionResult RoleGrid()
         {
             return PartialView("_RoleGrid", GetGridViewModel());

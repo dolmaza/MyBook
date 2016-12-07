@@ -53,7 +53,7 @@ namespace MyBook.Controllers
             return PartialView("_UserGrid", GetGridViewModel());
         }
 
-        [Route("users/upsate", Name = "UsersUpdate")]
+        [Route("users/update", Name = "UsersUpdate")]
         public ActionResult UsersUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] UserGridItem model)
         {
             UnitOfWork.UserRepository.Update(new User

@@ -17,3 +17,4 @@ D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AllowNullsInCapt
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddIconNameColumnToPermissionsTable.resources
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddSortIndexColumnToPermissionsTable.resources
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddRelationtipOneToManyParentChildrensToPermissionsTable.resources
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AllowNullsInUrlColumnToPermissionsTable.resources

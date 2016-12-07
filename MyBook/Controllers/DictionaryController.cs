@@ -20,7 +20,7 @@ namespace MyBook.Controllers
             return View(model);
         }
 
-        [Route("dictionaries/list", Name = "DictioanriesTree")]
+        [Route("dictionaries/tree", Name = "DictioanriesTree")]
         public ActionResult DictionaryTree()
         {
             return PartialView("_DictionaryTree", GetTreeViewModel());

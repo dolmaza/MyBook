@@ -24,7 +24,7 @@
         column.FieldName = "Caption";
         column.Caption = "დასახელება";
         column.ColumnType = MVCxTreeListColumnType.TextBox;
-        column.Width = Unit.Pixel(200);
+        column.Width = Unit.Pixel(250);
         var textboxProperties = column.PropertiesEdit as TextBoxProperties;
         if (textboxProperties != null)
         {
@@ -37,11 +37,10 @@
         column.FieldName = "Url";
         column.Caption = "გვერდის მისამართი";
         column.ColumnType = MVCxTreeListColumnType.TextBox;
-        column.Width = Unit.Pixel(200);
+        column.Width = Unit.Pixel(260);
         var textboxProperties = column.PropertiesEdit as TextBoxProperties;
         if (textboxProperties != null)
         {
-            textboxProperties.ValidationSettings.RequiredField.IsRequired = true;
         }
     });
 
