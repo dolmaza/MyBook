@@ -86,7 +86,6 @@ namespace MyBook.Controllers
 
             UnitOfWork.Complate();
 
-
             if (UnitOfWork.IsError)
             {
                 throw new Exception(Resources.Abort);

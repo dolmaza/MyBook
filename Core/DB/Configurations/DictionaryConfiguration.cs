@@ -15,7 +15,6 @@ namespace Core.DB.Configurations
                 .HasMaxLength(200);
 
             Property(d => d.CaptionEng)
-                .IsRequired()
                 .HasMaxLength(200);
 
             Property(d => d.DecimalValue)

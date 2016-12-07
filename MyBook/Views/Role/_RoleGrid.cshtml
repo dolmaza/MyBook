@@ -1,0 +1,48 @@
+﻿@model RoleGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "RoleGrid";
+    settings.KeyFieldName = "ID";
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.VisibleIndex = 2;
+
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewRowRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateRowRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Caption";
+        column.Caption = "დასახელება";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+        var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textBoxProperties != null)
+        {
+            textBoxProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Code";
+        column.Caption = "კოდი";
+        column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.GridItems).GetHtml()

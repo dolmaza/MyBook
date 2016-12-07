@@ -22,6 +22,10 @@ namespace Core.DB.Configurations
             Property(p => p.Code)
                 .IsRequired()
                 .HasMaxLength(50);
+            HasOptional(p => p.Parent)
+                .WithMany(p => p.Childrens)
+                .HasForeignKey(p => p.ParentID)
+                .WillCascadeOnDelete(false);
         }
     }
 }

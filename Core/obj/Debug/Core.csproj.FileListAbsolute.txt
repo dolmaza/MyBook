@@ -13,3 +13,7 @@ D:\Projects\MVC Projectes\MyBook\Core\bin\Debug\Newtonsoft.Json.xml
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Properties.Resources.resources
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.csproj.GenerateResource.Cache
 D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.InitDatabase.resources
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AllowNullsInCaptionEngToDictionaryTable.resources
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddIconNameColumnToPermissionsTable.resources
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddSortIndexColumnToPermissionsTable.resources
+D:\Projects\MVC Projectes\MyBook\Core\obj\Debug\Core.Migrations.AddRelationtipOneToManyParentChildrensToPermissionsTable.resources
