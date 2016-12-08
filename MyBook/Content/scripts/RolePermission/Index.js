@@ -1,12 +1,7 @@
-﻿var UpdateRolePermissionsUrl = "@Model.UpdateRolePermissionsUrl";
-var GetRolePermissionsUrl = "@Model.GetRolePermissionsUrl";
-$(function () {
+﻿$(function () {
     $(".save").click(function () {
         var roleID = RolesGrid.GetRowKey(RolesGrid.GetFocusedRowIndex());
         var permissions = PermissionsTree.GetVisibleSelectedNodeKeys();
-
-        console.log(roleID);
-        console.log(permissions);
 
         $.ajax({
             type: "POST",
@@ -44,18 +39,22 @@ function OnGetRowKey(ID) {
         success: function (response) {
             if (response.IsSuccess) {
                 var nodes = PermissionsTree.GetVisibleNodeKeys();
+                var newPermissions = JSON.parse(response.Data.Permissions);
 
                 $.each(nodes, function (index, node) {
                     PermissionsTree.SelectNode(node, false);
                 });
 
-                $.each(response.Data.Permissions, function (index, permission) {
-                    PermissionsTree.SelectNode(permission.ID, true);
+                $.each(newPermissions, function (index, permission) {
+                    PermissionsTree.SelectNode(permission, true);
                 });
 
             } else {
                 alert("Error");
             }
+        },
+        error: function() {
+            alert("Error");
         }
     });
 }

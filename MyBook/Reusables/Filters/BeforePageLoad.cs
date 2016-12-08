@@ -1,5 +1,6 @@
-﻿using System.Web.Mvc;
-using FilterAttribute = DevExpress.Utils.Filtering.FilterAttribute;
+﻿using Core;
+using Core.Utilities;
+using System.Web.Mvc;
 
 namespace MyBook.Reusables.Filters
 {
@@ -12,7 +13,19 @@ namespace MyBook.Reusables.Filters
 
         private void UserAutorize(ActionExecutingContext filterContext)
         {
+            if (filterContext.RouteData != null && (filterContext.RouteData.Values["action"].ToString() != "Login"))
+            {
+                var user = filterContext.HttpContext.Session[AppSettings.AuthenticatedUserKey] as User;
 
+                if (user == null)
+                {
+                    filterContext.Result = new RedirectResult("/login");
+                }
+                else
+                {
+
+                }
+            }
         }
 
         public void OnActionExecuted(ActionExecutedContext filterContext)

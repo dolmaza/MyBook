@@ -68,11 +68,12 @@ namespace MyBook.Controllers
         }
 
         [Route("roles/delete", Name = "RolesDelete")]
-        public ActionResult RolesDelete(int? ID)
+        public ActionResult RolesDelete([ModelBinder(typeof(DevExpressEditorsBinder))] int? ID)
         {
             var role = UnitOfWork.RoleRepository.Get(ID);
             UnitOfWork.RoleRepository.Remove(role);
 
+            UnitOfWork.Complate();
             if (UnitOfWork.IsError)
             {
                 throw new Exception(Resources.Abort);

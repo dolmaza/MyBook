@@ -5,13 +5,14 @@ using Core.UnitOfWork;
 using Core.Utilities;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using MyBook.Reusables.Filters;
 using System;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 
 namespace MyBook.Models
 {
-    //[BeforePageLoads]
+    [BeforePageLoad]
     public class BaseController : Controller
     {
         public User UserItem { get; set; }
