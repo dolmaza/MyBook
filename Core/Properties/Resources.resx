@@ -132,4 +132,7 @@
   <data name="TextConfirmDelete" xml:space="preserve">
     <value>ნამდვილად გსურთ წაშლა?</value>
   </data>
+  <data name="ValidationInvalidUsernameOrPassword" xml:space="preserve">
+    <value>მომხმარებლის სახელი ან პაროლი არასწორია</value>
+  </data>
 </root>

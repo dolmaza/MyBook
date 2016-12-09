@@ -175,6 +175,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DictionaryViewModel.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\LayoutViewModel.cs" />
     <Compile Include="Models\PermissionViewModel.cs" />
     <Compile Include="Models\RolePermissionsViewModel.cs" />
@@ -213,6 +214,7 @@
     <Content Include="Views\RolePermission\Index.cshtml" />
     <Content Include="Views\RolePermission\_RolesGrid.cshtml" />
     <Content Include="Views\RolePermission\_PermissionsTree.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -104,5 +104,14 @@ namespace Core.Properties {
                 return ResourceManager.GetString("TextConfirmDelete", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to მომხმარებლის სახელი ან პაროლი არასწორია.
+        /// </summary>
+        public static string ValidationInvalidUsernameOrPassword {
+            get {
+                return ResourceManager.GetString("ValidationInvalidUsernameOrPassword", resourceCulture);
+            }
+        }
     }
 }

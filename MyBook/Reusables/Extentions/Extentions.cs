@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -82,6 +84,22 @@ namespace SmartExpress.Reusable.Extentions
             }
 
             return sb.ToString();
+
+        }
+
+        public static bool HasUserPermission(this User user, string pageUrl, string permissionCode = null)
+        {
+            if (user?.Role?.Permissions != null)
+            {
+                return user.Role.Permissions.Any(p => (!string.IsNullOrWhiteSpace(p.Url)
+                                                                                    && !string.IsNullOrWhiteSpace(pageUrl)
+                                                                                    && (p.Url == pageUrl || Regex.IsMatch(pageUrl, $@"{p.Url}*$")))
+                                                                                    || p.Code == permissionCode);
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
