@@ -21,84 +21,86 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper">
-        <header class="main-header">
-            <a href="#" class="logo">
-                <span class="logo-mini"><b>M</b>B</span>
-                <span class="logo-lg"><b>My</b>Book</span>
+    @StackExchange.Profiling.MiniProfiler.RenderIncludes()
+
+<div class="wrapper">
+    <header class="main-header">
+        <a href="#" class="logo">
+            <span class="logo-mini"><b>M</b>B</span>
+            <span class="logo-lg"><b>My</b>Book</span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </a>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#"><i class="fa fa-sign-out"></i></a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <aside class="main-sidebar">
-            <section class="sidebar">
-                <ul class="sidebar-menu">
-                    <li class="header">მთავარი ნავიგაცია</li>
-                    
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>მართვის პანელი</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span>ბროკერების მართვა</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#"><i class="fa fa-circle-o"></i> ბროკერები</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> როლები</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> უფლებები</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> როლის უფლებები</a></li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-cog"></i>
-                            <span>ადმინისტრაცია</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#"><i class="fa fa-circle-o"></i> ცნობარები</a></li>
-                        </ul>
-                    </li>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li><a href="#"><i class="fa fa-sign-out"></i></a></li>
                 </ul>
-            </section>
-        </aside>
-        <div class="content-wrapper">
-            <section class="content-header">
-                <h1>
-                    @ViewBag.Title
-                </h1>
-                @RenderSection("Breadcramps", false)
-            </section>
-            <section class="content">
-                @RenderBody()
-            </section>
-        </div>
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.3.0
             </div>
-            <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
-        </footer>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">მთავარი ნავიგაცია</li>
+
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>მართვის პანელი</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>ბროკერების მართვა</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> ბროკერები</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> როლები</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> უფლებები</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> როლის უფლებები</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span>ადმინისტრაცია</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i> ცნობარები</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                @ViewBag.Title
+            </h1>
+            @RenderSection("Breadcramps", false)
+        </section>
+        <section class="content">
+            @RenderBody()
+        </section>
     </div>
-    <script src="~/Content/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/Content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <script src="~/Content/plugins/fastclick/fastclick.min.js"></script>
-    <script src="~/Content/plugins/adminLTE/js/app.min.js"></script>
-    @RenderSection("FooterSection", false)
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.3.0
+        </div>
+        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<script src="~/Content/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="~/Content/plugins/fastclick/fastclick.min.js"></script>
+<script src="~/Content/plugins/adminLTE/js/app.min.js"></script>
+@RenderSection("FooterSection", false)
 </body>
 </html>

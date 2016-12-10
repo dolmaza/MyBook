@@ -7,7 +7,7 @@ namespace Core.Repositories
     public interface IRoleRepository : IRepository<Role>
     {
         IEnumerable<int?> GetRolePermissions(int? ID);
-        void UpdateRolePermissions(int? roleID, IEnumerable<Permission> permissions);
+        void UpdateRolePermissions(int? roleID, ICollection<Permission> permissions);
     }
 
     public class RoleRepository : Repository<Role>, IRoleRepository
@@ -22,22 +22,21 @@ namespace Core.Repositories
             return GetAll().Include(r => r.Permissions).SingleOrDefault(r => r.ID == ID)?.Permissions.Select(r => r.ID).ToList();
         }
 
-        public void UpdateRolePermissions(int? roleID, IEnumerable<Permission> permissions)
+        public void UpdateRolePermissions(int? roleID, ICollection<Permission> permissions)
         {
             var role = GetAll().Include(r => r.Permissions).SingleOrDefault(r => r.ID == roleID);
 
             if (role != null)
             {
-                role.Permissions.Clear();
-                if (permissions != null)
+                role.Permissions.Where(w => !permissions.Contains(w)).ToList().ForEach(permission =>
                 {
-                    foreach (var permission in permissions)
-                    {
-                        role.Permissions.Add(permission);
-                    }
+                    role.Permissions.Remove(permission);
+                });
 
-                    Update(role);
-                }
+                permissions?.Where(w => !role.Permissions.Contains(w)).ToList().ForEach(permission =>
+                {
+                    role.Permissions.Add(permission);
+                });
             }
         }
     }

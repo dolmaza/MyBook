@@ -11,8 +11,8 @@ namespace MyBook.Reusables.Filters
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var controller = (BaseController)filterContext.Controller;
-            GetUserFromSession(filterContext, ref controller);
-            UserAutorize(filterContext);
+            //GetUserFromSession(filterContext, ref controller);
+            //UserAutorize(filterContext);
         }
 
         private void UserAutorize(ActionExecutingContext filterContext)

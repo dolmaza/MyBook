@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Properties;
+﻿using Core.Properties;
 using Core.Utilities;
 using MyBook.Models;
 using SmartExpress.Reusable.Extentions;
@@ -60,8 +59,7 @@ namespace MyBook.Controllers
             var ajaxResponse = new AjaxResponse();
 
             var role = UnitOfWork.RoleRepository.Get(roleID);
-
-            if (role == null)
+            if (role == null || permissions == null)
             {
                 ajaxResponse.Data = new
                 {
@@ -70,11 +68,7 @@ namespace MyBook.Controllers
             }
             else
             {
-                var newPermissions = new List<Permission>();
-                permissions?.ForEach(id =>
-                {
-                    newPermissions.Add(UnitOfWork.PermissionRepository.Get(id));
-                });
+                var newPermissions = UnitOfWork.PermissionRepository.GetAll().Where(p => permissions.Contains(p.ID ?? 0)).ToList();
 
                 UnitOfWork.RoleRepository.UpdateRolePermissions(roleID, newPermissions);
                 UnitOfWork.Complate();
