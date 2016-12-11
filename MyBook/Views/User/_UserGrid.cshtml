@@ -98,7 +98,7 @@
 
     settings.CellEditorInitialize = (s, e) =>
     {
-        ASPxEdit editor = (ASPxEdit)e.Editor;
+        var editor = (ASPxEdit)e.Editor;
         editor.ValidationSettings.Display = Display.Dynamic;
     };
 

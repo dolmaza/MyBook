@@ -10,6 +10,10 @@
     color: rgb(239, 239, 15);
 }
 
+.fa-pencil-square {
+    color: #13aa66;
+}
+
 .fa-check-circle,
 .fa-plus {
     color: green;

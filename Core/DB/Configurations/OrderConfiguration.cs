@@ -11,27 +11,22 @@ namespace Core.DB.Configurations
             HasKey(o => o.ID);
 
             Property(o => o.Firstname)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnType("nvarchar");
 
             Property(o => o.Lastname)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnType("nvarchar");
 
             Property(o => o.Address)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnType("nvarchar");
 
             Property(o => o.Mobile)
-                .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnType("nvarchar");
 
             Property(o => o.TotalPrice)
-                .IsRequired()
                 .HasColumnType("money");
 
             Property(o => o.Address)

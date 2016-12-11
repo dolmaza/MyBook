@@ -87,20 +87,11 @@ namespace SmartExpress.Reusable.Extentions
 
         }
 
-        public static bool HasUserPermission(this User user, string pageUrl, string permissionCode = null)
+        public static bool HasUserPermission(this User user, string pageUrl, string permissionCode = null, int? ID = null)
         {
-            if (user?.Role?.Permissions != null)
-            {
-                return user.Role.Permissions.Any(p => (!string.IsNullOrWhiteSpace(p.Url)
-                                                                                    && !string.IsNullOrWhiteSpace(pageUrl)
-                                                                                    && (p.Url == pageUrl || Regex.IsMatch(pageUrl, $@"{p.Url}*$")))
-                                                                                    || p.Code == permissionCode);
-            }
-            else
-            {
-                return false;
-            }
-
+            return user?.Role?.Permissions != null && user.Role.Permissions.Any(p => ((!string.IsNullOrWhiteSpace(p.Url) && !string.IsNullOrWhiteSpace(pageUrl))
+                                                                                && (p.Url == pageUrl || Regex.IsMatch(pageUrl, $@"{p.Url}$")))
+                                                                                || p.Code == permissionCode || p.ID == ID);
         }
 
     }

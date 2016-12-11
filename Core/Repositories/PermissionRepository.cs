@@ -17,7 +17,7 @@ namespace Core.Repositories
 
         public IQueryable<Permission> GetMenuItems()
         {
-            return GetAll().Where(p => p.IsMenuItem);
+            return GetAll().Where(p => p.IsMenuItem).OrderBy(p => p.SortIndex);
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var layoutViewModel = ViewBag.LayoutViewModel as LayoutViewModel;
+    layoutViewModel = layoutViewModel ?? new LayoutViewModel();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -38,7 +42,7 @@
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li><a href="#"><i class="fa fa-sign-out"></i></a></li>
+                    <li><a href="@layoutViewModel.LogoutUrl"><i class="fa fa-sign-out"></i></a></li>
                 </ul>
             </div>
         </nav>
@@ -47,35 +51,35 @@
         <section class="sidebar">
             <ul class="sidebar-menu">
                 <li class="header">მთავარი ნავიგაცია</li>
-
-                <li>
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>მართვის პანელი</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-users"></i>
-                        <span>ბროკერების მართვა</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> ბროკერები</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> როლები</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> უფლებები</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> როლის უფლებები</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-cog"></i>
-                        <span>ადმინისტრაცია</span>
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> ცნობარები</a></li>
-                    </ul>
-                </li>
+                
+                @foreach (var menuItem in layoutViewModel.FirstLevelMenuItems)
+                {
+                    if (menuItem.HasSecondLevelMenuItems)
+                    {
+                        <li class="@(menuItem.IsActive ? Html.Raw("active") : null)">
+                            <a href="@menuItem.Url">
+                                <i class="@menuItem.IconName"></i> <span>@menuItem.Caption</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="treeview @(menuItem.IsMenuItemExpanded ? Html.Raw("active") : null)">
+                            <a href="#">
+                                <i class="@menuItem.IconName"></i>
+                                <span>@menuItem.Caption</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                @foreach (var secondLevelMenuItem in menuItem.SecondLevelMenuItems)
+                                {
+                                
+                                    <li class="@(secondLevelMenuItem.IsActive ? Html.Raw("active") : null)"><a href="@secondLevelMenuItem.Url"><i class="@secondLevelMenuItem.IconName"></i> @secondLevelMenuItem.Caption</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
             </ul>
         </section>
     </aside>

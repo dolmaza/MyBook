@@ -20,7 +20,8 @@ namespace MyBook.Controllers
         {
             var model = new LoginViewModel
             {
-                LoginUrl = Url.RouteUrl("Login")
+                LoginUrl = Url.RouteUrl("Login"),
+                RedirectUrl = Request.QueryString["RedirectUrl"]
             };
 
             return View(model);
@@ -45,10 +46,18 @@ namespace MyBook.Controllers
             else
             {
                 Session[AppSettings.AuthenticatedUserKey] = user;
-                return Redirect(model.RedirectUrl);
+                return Redirect(model.RedirectUrl ?? "/");
             }
 
             return View(model);
+        }
+
+        [Route("logout", Name = "Logout")]
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToRoute("Dashboard");
         }
     }
 }

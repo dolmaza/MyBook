@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\RolePermissionController.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\LayoutViewModel.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PermissionViewModel.cs" />
     <Compile Include="Models\RolePermissionsViewModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
@@ -227,6 +229,10 @@
     <Content Include="Views\RolePermission\_RolesGrid.cshtml" />
     <Content Include="Views\RolePermission\_PermissionsTree.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\_OrderGrid.cshtml" />
+    <Content Include="Views\Order\OrdersEdit.cshtml" />
+    <Content Include="Views\Order\_OrderDetailsGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

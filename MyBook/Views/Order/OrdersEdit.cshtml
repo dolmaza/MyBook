@@ -1,0 +1,86 @@
+﻿@model OrdersFormViewModel
+@{
+    ViewBag.Title = "შეკვეთის რედაქტირება";
+}
+
+@section HeaderSection {
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+}
+
+@section Breadcramps{
+    <ol class="breadcrumb">
+        <li><a href="@Model.OrdersUrl"><i class="fa fa-dashboard"></i> შეკვეთები</a></li>
+        <li class="active"><a href="#"> @ViewBag.Title</a></li>
+    </ol>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <a href="#" class="btn btn-flat btn-success save"><i class="fa fa-floppy-o"></i> შენახვა</a>
+                <span class="pull-right badge @Model.StatusColor">@Model.Status</span>
+
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>სახელი</label>
+                            <input type="text" class="form-control" value="" id=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>გვარი</label>
+                            <input type="text" class="form-control" value="" id="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>მისამართი</label>
+                            <input type="text" class="form-control" value="" id="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>მობილური</label>
+                            <input type="text" class="form-control" value="" id="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>ჩაბარების თარიღი</label>
+                            <input type="text" class="form-control" value="" id="" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>შენიშვნა</label>
+                            <textarea class="form-control" value="" id=""></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <a href="#" class="btn btn-flat btn-default save"><i class="fa fa-plus"></i> დამატება</a>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+                @Html.Partial("_OrderDetailsGrid", Model.OrderDetailsGridViewModel)
+            </div>
+        </div>
+    </div>
+</div>

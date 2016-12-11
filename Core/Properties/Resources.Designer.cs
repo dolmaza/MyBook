@@ -106,7 +106,7 @@ namespace Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to მომხმარებლის სახელი ან პაროლი არასწორია.
+        ///   Looks up a localized string similar to სახელი ან პაროლი არასწორია.
         /// </summary>
         public static string ValidationInvalidUsernameOrPassword {
             get {

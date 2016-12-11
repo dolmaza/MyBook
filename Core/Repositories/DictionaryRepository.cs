@@ -5,7 +5,8 @@ namespace Core.Repositories
 {
     public interface IDictionaryRepository : IRepository<Dictionary>
     {
-        IQueryable<Dictionary> GetAll(int? level, int? dictionaryCode);
+        IQueryable<Dictionary> GetAll(int? level, int? code);
+        Dictionary Get(int? level, int? code, int intCode);
     }
 
     public class DictionaryRepository : Repository<Dictionary>, IDictionaryRepository
@@ -18,6 +19,11 @@ namespace Core.Repositories
         public IQueryable<Dictionary> GetAll(int? level, int? code)
         {
             return GetAll().Where(d => d.Level == level && d.Code == code);
+        }
+
+        public Dictionary Get(int? level, int? code, int intCode)
+        {
+            return GetAll().SingleOrDefault(d => d.Level == level && d.Code == code && d.IntCode == intCode);
         }
     }
 }

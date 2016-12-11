@@ -1,0 +1,144 @@
+﻿@model OrderGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "OrderGrid";
+    settings.KeyFieldName = "ID";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.Width = Unit.Pixel(30);
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.VisibleIndex = 0;
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Pixel(30);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var detailsUrl = DataBinder.Eval(c.DataItem, "DetailsUrl");
+            ViewContext.Writer.Write($"<a href='{detailsUrl}'><i class='fa fa-info-circle'></i></a>");
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Pixel(30);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var editUrl = DataBinder.Eval(c.DataItem, "EdutUrl");
+            ViewContext.Writer.Write($"<a href='{editUrl}'><i class='fa fa-pencil-square'></i></a>");
+        });
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StatusID";
+        column.Caption = "სტატუსი";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        column.Width = Unit.Pixel(150);
+        var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
+        if (comboboxProperties != null)
+        {
+            comboboxProperties.DataSource = Model.Statuses;
+            comboboxProperties.ValueField = "Key";
+            comboboxProperties.TextField = "Value";
+            comboboxProperties.ValueType = typeof(int?);
+            comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UserID";
+        column.Caption = "ბროკერი";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        column.Width = Unit.Pixel(200);
+        var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
+        if (comboboxProperties != null)
+        {
+            comboboxProperties.DataSource = Model.Users;
+            comboboxProperties.ValueField = "Key";
+            comboboxProperties.TextField = "Value";
+            comboboxProperties.ValueType = typeof(int?);
+            comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DeliveryTime";
+        column.Caption = "ჩაბარების თარიღი";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.Width = Unit.Pixel(170);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TotalPrice";
+        column.Caption = "ჯამური ფასი";
+        column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        column.Width = Unit.Pixel(150);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Firstname";
+        column.Caption = "სახელი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Lastname";
+        column.Caption = "გვარი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "მისამართი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Mobile";
+        column.Caption = "მობილური";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Note";
+        column.Caption = "შენიშვნა";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CreateTime";
+        column.Caption = "შექმნის თარიღი";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+
+}).Bind(Model.GridItems).GetHtml()

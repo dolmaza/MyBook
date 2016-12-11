@@ -2,7 +2,7 @@
     $(".save").click(function () {
         var roleID = RolesGrid.GetRowKey(RolesGrid.GetFocusedRowIndex());
         var permissions = PermissionsTree.GetVisibleSelectedNodeKeys();
-
+        console.log(roleID,permissions);
         $.ajax({
             type: "POST",
             url: updateRolePermissionsUrl,
@@ -13,7 +13,7 @@
             dataType: "json",
             success: function (response) {
                 if (response.IsSuccess) {
-
+                    alert("Success");
                 } else {
                     alert("Error");
                 }

@@ -53,6 +53,7 @@ namespace MyBook.Controllers
             return Json(ajaxResponse);
         }
 
+        [HttpPost]
         [Route("role-permissions/update", Name = "RolePermissionsUpdate")]
         public ActionResult RolePermissionsUpdate(int? roleID, List<int?> permissions)
         {
