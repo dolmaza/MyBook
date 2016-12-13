@@ -79,6 +79,15 @@ namespace Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to M dd yy.
+        /// </summary>
+        public static string FormatDateJs {
+            get {
+                return ResourceManager.GetString("FormatDateJs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HH:mm.
         /// </summary>
         public static string FormatTime {

@@ -18,7 +18,7 @@ namespace Core.Repositories
 
         public Order GetWithStatus(int? ID)
         {
-            return GetAll().Include(o => o.Status).SingleOrDefault(o => o.ID == ID);
+            return GetAll().Include(o => o.Status).AsNoTracking().SingleOrDefault(o => o.ID == ID);
         }
     }
 }

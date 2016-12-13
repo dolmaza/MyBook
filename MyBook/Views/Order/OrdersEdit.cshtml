@@ -4,6 +4,7 @@
 }
 
 @section HeaderSection {
+    <link href="~/Content/plugins/jquery-ui-1.12.0/jquery-ui.min.css" rel="stylesheet" />
     @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
     @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
 }
@@ -19,7 +20,7 @@
     <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
-                <a href="#" class="btn btn-flat btn-success save"><i class="fa fa-floppy-o"></i> შენახვა</a>
+                <a href="@Model.SaveOrderPropertiesUrl" class="btn btn-flat btn-success" id="order-properties-save"><i class="fa fa-floppy-o"></i> შენახვა</a>
                 <span class="pull-right badge @Model.StatusColor">@Model.Status</span>
 
                 <div class="box-tools pull-right">
@@ -30,13 +31,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>სახელი</label>
-                            <input type="text" class="form-control" value="" id=""/>
+                            <input type="text" class="form-control" value="@Model.Firstname" id="firstname"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>გვარი</label>
-                            <input type="text" class="form-control" value="" id="" />
+                            <input type="text" class="form-control" value="@Model.Lastname" id="lastname" />
                         </div>
                     </div>
                 </div>
@@ -44,13 +45,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>მისამართი</label>
-                            <input type="text" class="form-control" value="" id="" />
+                            <input type="text" class="form-control" value="@Model.Address" id="address" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>მობილური</label>
-                            <input type="text" class="form-control" value="" id="" />
+                            <input type="text" class="form-control" value="@Model.Mobile" id="mobile" />
                         </div>
                     </div>
                 </div>
@@ -58,13 +59,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>ჩაბარების თარიღი</label>
-                            <input type="text" class="form-control" value="" id="" />
+                            <input type="text" class="form-control" value="@Model.DeliveryTime" id="deliveryTime" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>შენიშვნა</label>
-                            <textarea class="form-control" value="" id=""></textarea>
+                            <textarea class="form-control" value="" id="note">@Model.Note</textarea>
                         </div>
                     </div>
                 </div>
@@ -74,7 +75,7 @@
     <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
-                <a href="#" class="btn btn-flat btn-default save"><i class="fa fa-plus"></i> დამატება</a>
+                <a href="#" class="btn btn-flat btn-default" id="add-new-order-detail"><i class="fa fa-plus"></i> დამატება</a>
                 <div class="box-tools pull-right">
                 </div>
             </div>
@@ -84,3 +85,12 @@
         </div>
     </div>
 </div>
+
+@section FooterSection {
+    <script>
+        var formatDateJs = "@Model.FormatDateJs"
+    </script>
+    <script src="~/Content/plugins/jQuery/masked-input.js"></script>
+    <script src="~/Content/plugins/jquery-ui-1.12.0/jquery-ui.min.js"></script>
+    <script src="~/Content/scripts/Order/OrderEdit.js"></script>
+}

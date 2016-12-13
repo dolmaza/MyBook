@@ -1,8 +1,10 @@
 ﻿using Core;
 using Core.Properties;
 using Core.Utilities;
+using DevExpress.Web.Mvc;
 using MyBook.Models;
 using SmartExpress.Reusable.Extentions;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -46,8 +48,8 @@ namespace MyBook.Controllers
                     UserID = o.UserID,
                     TotalPrice = o.TotalPrice,
                     Note = o.Note,
-                    DeliveryTime = o.DeliveryTime,
-                    CreateTime = o.CreateTime,
+                    DeliveryTime = o.DeliveryTime?.ToString(Resources.FormatDate),
+                    CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
 
                     EdutUrl = Url.RouteUrl("OrdersEdit", new { ID = o.ID })
                 }).ToList(),
@@ -115,6 +117,8 @@ namespace MyBook.Controllers
             UnitOfWork.OrderRepository.Update(new Order
             {
                 ID = model.ID,
+                UserID = model.UserID,
+                StatusID = model.StatusID,
                 Firstname = model.Firstname,
                 Lastname = model.Lastname,
                 Address = model.Address,
@@ -167,6 +171,9 @@ namespace MyBook.Controllers
                         StatusColor = order.Status?.StringCode
                     };
                 }
+                model.UserID = order.UserID;
+                model.StatusID = order.StatusID;
+                model.SaveOrderPropertiesUrl = Url.RouteUrl("OrdersEdit", new { ID = orderID });
                 model.OrdersUrl = Url.RouteUrl("Orders");
                 model.OrderDetailsGridViewModel = GetOrderDetailsGridViewModel(orderID);
             }
@@ -184,11 +191,69 @@ namespace MyBook.Controllers
             return PartialView("_OrderDetailsGrid", GetOrderDetailsGridViewModel(orderID));
         }
 
+        [Route("orders/{orderID}/order-details/add", Name = "OrderDetailsAdd")]
+        public ActionResult OrderDetailsAdd([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
+        {
+            UnitOfWork.OrderDetailRepository.Add(new OrderDetail
+            {
+                BookName = model.BookName,
+                OrderID = orderID,
+                Price = model.Price.ToDecimal()
+            });
+
+            UnitOfWork.Complate();
+
+            if (UnitOfWork.IsError)
+            {
+                throw new Exception(Resources.Abort);
+            }
+
+            return PartialView("_OrderDetailsGrid", GetOrderDetailsGridViewModel(orderID));
+        }
+
+        [Route("orders/{orderID}/order-details/update", Name = "OrderDetailsUpdate")]
+        public ActionResult OrderDetailsUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
+        {
+            UnitOfWork.OrderDetailRepository.Update(new OrderDetail
+            {
+                ID = model.ID,
+                BookName = model.BookName,
+                OrderID = orderID,
+                Price = model.Price.ToDecimal()
+            });
+
+            UnitOfWork.Complate();
+
+            if (UnitOfWork.IsError)
+            {
+                throw new Exception(Resources.Abort);
+            }
+
+            return PartialView("_OrderDetailsGrid", GetOrderDetailsGridViewModel(orderID));
+        }
+
+        [Route("orders/{orderID}/order-details/delete", Name = "OrderDetailsDelete")]
+        public ActionResult OrderDetailsDelete([ModelBinder(typeof(DevExpressEditorsBinder))] int? ID, int? orderID)
+        {
+            var orderDetail = UnitOfWork.OrderDetailRepository.Get(ID);
+            UnitOfWork.OrderDetailRepository.Remove(orderDetail);
+            UnitOfWork.Complate();
+            if (UnitOfWork.IsError)
+            {
+                throw new Exception(Resources.Abort);
+            }
+
+            return PartialView("_OrderDetailsGrid", GetOrderDetailsGridViewModel(orderID));
+        }
+
         private OrderDetailsGridViewModel GetOrderDetailsGridViewModel(int? orderID)
         {
             return new OrderDetailsGridViewModel
             {
                 ListUrl = Url.RouteUrl("OrderDetailsGrid", new { orderID = orderID }),
+                AddNewUrl = Url.RouteUrl("OrderDetailsAdd", new { orderID = orderID }),
+                UpdateUrl = Url.RouteUrl("OrderDetailsUpdate", new { orderID = orderID }),
+                DeleteUrl = Url.RouteUrl("OrderDetailsDelete", new { orderID = orderID }),
                 GridItems = UnitOfWork.OrderDetailRepository.GetAll().Where(o => o.OrderID == orderID).ToList().Select(o => new OrderDetailGridItem
                 {
                     ID = o.ID,

@@ -123,6 +123,9 @@
   <data name="FormatDate" xml:space="preserve">
     <value>MMM dd yyyy</value>
   </data>
+  <data name="FormatDateJs" xml:space="preserve">
+    <value>M dd yy</value>
+  </data>
   <data name="FormatTime" xml:space="preserve">
     <value>HH:mm</value>
   </data>
