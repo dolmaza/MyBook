@@ -5,6 +5,7 @@ using DevExpress.Web.Mvc;
 using MyBook.Models;
 using SmartExpress.Reusable.Extentions;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -34,10 +35,15 @@ namespace MyBook.Controllers
 
         private OrderGridViewModel GetOrderGridViewModel()
         {
+            var orders = UserItem.Role.Code == RoleCode.ADMIN ? 
+                UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList() :
+                UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).Where(o => o.UserID == UserItem.ID).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList();
             return new OrderGridViewModel
             {
                 ListUrl = Url.RouteUrl("OrderGrid"),
-                GridItems = UnitOfWork.OrderRepository.GetAll().ToList().Select(o => new OrderGridItem
+                ShowUserColumn = UserItem.Role.Code == RoleCode.ADMIN,
+                IsAllowedToChangeStatus = UserItem.Role.Code == RoleCode.ADMIN,
+                GridItems = orders.Select(o => new OrderGridItem
                 {
                     ID = o.ID,
                     Firstname = o.Firstname,
@@ -46,7 +52,7 @@ namespace MyBook.Controllers
                     Mobile = o.Mobile,
                     StatusID = o.StatusID,
                     UserID = o.UserID,
-                    TotalPrice = o.TotalPrice,
+                    TotalPrice = $"{o.OrderDetails.Sum(od => od.Price):0.00}",
                     Note = o.Note,
                     DeliveryTime = o.DeliveryTime?.ToString(Resources.FormatDate),
                     CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
@@ -194,6 +200,7 @@ namespace MyBook.Controllers
         [Route("orders/{orderID}/order-details/add", Name = "OrderDetailsAdd")]
         public ActionResult OrderDetailsAdd([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
         {
+            
             UnitOfWork.OrderDetailRepository.Add(new OrderDetail
             {
                 BookName = model.BookName,
@@ -214,6 +221,7 @@ namespace MyBook.Controllers
         [Route("orders/{orderID}/order-details/update", Name = "OrderDetailsUpdate")]
         public ActionResult OrderDetailsUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
         {
+            
             UnitOfWork.OrderDetailRepository.Update(new OrderDetail
             {
                 ID = model.ID,
@@ -254,7 +262,7 @@ namespace MyBook.Controllers
                 AddNewUrl = Url.RouteUrl("OrderDetailsAdd", new { orderID = orderID }),
                 UpdateUrl = Url.RouteUrl("OrderDetailsUpdate", new { orderID = orderID }),
                 DeleteUrl = Url.RouteUrl("OrderDetailsDelete", new { orderID = orderID }),
-                GridItems = UnitOfWork.OrderDetailRepository.GetAll().Where(o => o.OrderID == orderID).ToList().Select(o => new OrderDetailGridItem
+                GridItems = UnitOfWork.OrderDetailRepository.GetAll().OrderByDescending(od => od.CreateTime).Where(o => o.OrderID == orderID).ToList().Select(o => new OrderDetailGridItem
                 {
                     ID = o.ID,
                     BookName = o.BookName,

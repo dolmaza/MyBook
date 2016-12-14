@@ -55,18 +55,18 @@ namespace MyBook.Controllers
         [Route("dictionaries/update", Name = "DictionariesUpdate")]
         public ActionResult DictioanriesUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] DictionaryTreeItem model)
         {
-            UnitOfWork.DictionaryRepository.Update(new Dictionary
-            {
-                ID = model.ID,
-                ParentID = model.ParentID,
-                Caption = model.Caption,
-                CaptionEng = model.CaptionEng,
-                StringCode = model.StringCode,
-                IntCode = model.IntCode,
-                DecimalValue = model.DecimalValue,
-                Code = model.Code,
-                SortIndex = model.SortIndex
-            });
+            var dictionary = UnitOfWork.DictionaryRepository.Get(model.ID);
+
+            dictionary.ParentID = model.ParentID;
+            dictionary.Caption = model.Caption;
+            dictionary.CaptionEng = model.CaptionEng;
+            dictionary.StringCode = model.StringCode;
+            dictionary.IntCode = model.IntCode;
+            dictionary.DecimalValue = model.DecimalValue;
+            dictionary.Code = model.Code;
+            dictionary.SortIndex = model.SortIndex;
+
+            UnitOfWork.DictionaryRepository.Update(dictionary);
 
             UnitOfWork.Complate();
 

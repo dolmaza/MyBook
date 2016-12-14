@@ -21,6 +21,9 @@ namespace MyBook.Models
         public List<SimpleKeyValue<int?, string>> Users { get; set; }
         public List<SimpleKeyValue<int?, string>> Statuses { get; set; }
 
+        public bool ShowUserColumn { get; set; }
+        public bool IsAllowedToChangeStatus { get; set; }
+
     }
 
     public class OrderGridItem
@@ -32,7 +35,7 @@ namespace MyBook.Models
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string Mobile { get; set; }
-        public decimal? TotalPrice { get; set; }
+        public string TotalPrice { get; set; }
         public string DeliveryTime { get; set; }
         public string Note { get; set; }
         public string CreateTime { get; set; }
@@ -67,7 +70,6 @@ namespace MyBook.Models
     public class OrderDetailsGridViewModel : GridViewModelBase
     {
         public List<OrderDetailGridItem> GridItems { get; set; }
-        public string TotalPrice => GridItems.Sum(t => t.Price?.ToDecimal()).ToString();
     }
 
     public class OrderDetailGridItem

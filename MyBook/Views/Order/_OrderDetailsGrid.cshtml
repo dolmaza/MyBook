@@ -44,15 +44,13 @@
             spinEditProperties.ValidationSettings.RequiredField.IsRequired = true;
             spinEditProperties.SpinButtons.ShowIncrementButtons = false;
         }
-
-        column.SetFooterTemplateContent(c =>
-        {
-            ViewContext.Writer.Write($"<span class='pull-right'>{Model.TotalPrice} ₾</span>");
-        });
     });
 
 
     settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Price").DisplayFormat = "c";
+
 
     settings.CellEditorInitialize = (s, e) =>
     {

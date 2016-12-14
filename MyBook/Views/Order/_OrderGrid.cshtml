@@ -51,23 +51,27 @@
 
     });
 
-    settings.Columns.Add(column =>
+    if (Model.ShowUserColumn)
     {
-        column.FieldName = "UserID";
-        column.Caption = "ბროკერი";
-        column.ColumnType = MVCxGridViewColumnType.ComboBox;
-        column.Width = Unit.Pixel(200);
-        var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
-        if (comboboxProperties != null)
+        settings.Columns.Add(column =>
         {
-            comboboxProperties.DataSource = Model.Users;
-            comboboxProperties.ValueField = "Key";
-            comboboxProperties.TextField = "Value";
-            comboboxProperties.ValueType = typeof(int?);
-            comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
-        }
+            column.FieldName = "UserID";
+            column.Caption = "ბროკერი";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            column.Width = Unit.Pixel(200);
+            var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
+            if (comboboxProperties != null)
+            {
+                comboboxProperties.DataSource = Model.Users;
+                comboboxProperties.ValueField = "Key";
+                comboboxProperties.TextField = "Value";
+                comboboxProperties.ValueType = typeof(int?);
+                comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+            }
 
-    });
+        });
+
+    }
 
     settings.Columns.Add(column =>
     {
@@ -137,6 +141,8 @@
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
         column.Width = Unit.Pixel(150);
     });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TotalPrice").DisplayFormat = "c";
 
     settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
 
