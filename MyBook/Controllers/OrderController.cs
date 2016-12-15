@@ -33,16 +33,59 @@ namespace MyBook.Controllers
             return PartialView("_OrderGrid", GetOrderGridViewModel());
         }
 
+        [Route("orders/{orderID}/status-update", Name = "OrderStatusUpdate")]
+        public ActionResult OrderStatusUpdate(int? orderID, int? statusID)
+        {
+            var ajaxResponse = new AjaxResponse();
+
+            var order = UnitOfWork.OrderRepository.Get(orderID);
+
+            order.StatusID = statusID;
+
+            UnitOfWork.Complate();
+
+            if (UnitOfWork.IsError)
+            {
+                ajaxResponse.Data = new
+                {
+                    Message = Resources.Abort
+                };
+            }
+            else
+            {
+                ajaxResponse.IsSuccess = true;
+            }
+
+            return Json(ajaxResponse);
+        }
+
+        [Route("orders/delete", Name = "OrdersDelete")]
+        public ActionResult OrderDelete([ModelBinder(typeof(DevExpressEditorsBinder))] int? ID)
+        {
+            var order = UnitOfWork.OrderRepository.Get(ID);
+            UnitOfWork.OrderRepository.Remove(order);
+            UnitOfWork.Complate();
+
+            if (UnitOfWork.IsError)
+            {
+                throw new Exception(Resources.Abort);
+            }
+
+            return PartialView("_OrderGrid", GetOrderGridViewModel());
+        }
+
         private OrderGridViewModel GetOrderGridViewModel()
         {
-            var orders = UserItem.Role.Code == RoleCode.ADMIN ? 
+            var orders = UserItem.Role.Code == RoleCode.ADMIN ?
                 UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList() :
                 UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).Where(o => o.UserID == UserItem.ID).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList();
             return new OrderGridViewModel
             {
                 ListUrl = Url.RouteUrl("OrderGrid"),
+                DeleteUrl = Url.RouteUrl("OrdersDelete"),
                 ShowUserColumn = UserItem.Role.Code == RoleCode.ADMIN,
                 IsAllowedToChangeStatus = UserItem.Role.Code == RoleCode.ADMIN,
+                IsAllowedToDeleteOrder = UserItem.HasUserPermission(Url.RouteUrl("OrdersDelete")),
                 GridItems = orders.Select(o => new OrderGridItem
                 {
                     ID = o.ID,
@@ -57,7 +100,8 @@ namespace MyBook.Controllers
                     DeliveryTime = o.DeliveryTime?.ToString(Resources.FormatDate),
                     CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
 
-                    EdutUrl = Url.RouteUrl("OrdersEdit", new { ID = o.ID })
+                    EdutUrl = Url.RouteUrl("OrdersEdit", new { ID = o.ID }),
+                    StatusUpdateUrl = Url.RouteUrl("OrderStatusUpdate", new { orderID = o.ID })
                 }).ToList(),
 
                 Users = UnitOfWork.UserRepository.GetAll().ToList().Select(u => new SimpleKeyValue<int?, string>
@@ -200,7 +244,7 @@ namespace MyBook.Controllers
         [Route("orders/{orderID}/order-details/add", Name = "OrderDetailsAdd")]
         public ActionResult OrderDetailsAdd([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
         {
-            
+
             UnitOfWork.OrderDetailRepository.Add(new OrderDetail
             {
                 BookName = model.BookName,
@@ -221,7 +265,7 @@ namespace MyBook.Controllers
         [Route("orders/{orderID}/order-details/update", Name = "OrderDetailsUpdate")]
         public ActionResult OrderDetailsUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] OrderDetailGridItem model, int? orderID)
         {
-            
+
             UnitOfWork.OrderDetailRepository.Update(new OrderDetail
             {
                 ID = model.ID,

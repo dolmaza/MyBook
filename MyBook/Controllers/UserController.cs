@@ -78,7 +78,7 @@ namespace MyBook.Controllers
         }
 
         [Route("users/delete", Name = "UsersDelete")]
-        public ActionResult UsersDelete(int? ID)
+        public ActionResult UsersDelete([ModelBinder(typeof(DevExpressEditorsBinder))] int? ID)
         {
             var user = UnitOfWork.UserRepository.Get(ID);
             UnitOfWork.UserRepository.Remove(user);

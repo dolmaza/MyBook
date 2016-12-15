@@ -1,8 +1,6 @@
 ﻿using Core.Properties;
 using Core.Utilities;
-using SmartExpress.Reusable.Extentions;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MyBook.Models
 {
@@ -23,6 +21,7 @@ namespace MyBook.Models
 
         public bool ShowUserColumn { get; set; }
         public bool IsAllowedToChangeStatus { get; set; }
+        public bool IsAllowedToDeleteOrder { get; set; }
 
     }
 
@@ -42,6 +41,7 @@ namespace MyBook.Models
 
         public string DetailsUrl { get; set; }
         public string EdutUrl { get; set; }
+        public string StatusUpdateUrl { get; set; }
 
     }
 

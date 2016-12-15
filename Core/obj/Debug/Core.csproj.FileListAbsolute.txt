@@ -28,7 +28,6 @@ C:\Mvc Projects\MyBook\Core\bin\Debug\Newtonsoft.Json.dll
 C:\Mvc Projects\MyBook\Core\bin\Debug\EntityFramework.xml
 C:\Mvc Projects\MyBook\Core\bin\Debug\EntityFramework.SqlServer.xml
 C:\Mvc Projects\MyBook\Core\bin\Debug\Newtonsoft.Json.xml
-C:\Mvc Projects\MyBook\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.InitDatabase.resources
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.AllowNullsInCaptionEngToDictionaryTable.resources
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.AddIconNameColumnToPermissionsTable.resources

@@ -4,12 +4,19 @@
     settings = Model.GenerateGridViewDefaultSettings(settings);
     settings.Name = "OrderGrid";
     settings.KeyFieldName = "ID";
-    settings.CommandColumn.Visible = true;
-    settings.CommandColumn.Width = Unit.Pixel(30);
-    settings.CommandColumn.ShowDeleteButton = true;
-    settings.CommandColumn.VisibleIndex = 0;
+
+    if (Model.IsAllowedToDeleteOrder)
+    {
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.Width = Unit.Pixel(30);
+        settings.CommandColumn.VisibleIndex = 0;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+
+    }
+
+
     settings.CallbackRouteValues = Model.ListUrl;
-    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
 
     settings.Columns.Add(column =>
@@ -32,6 +39,18 @@
         });
     });
 
+    if (Model.IsAllowedToChangeStatus)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.Width = Unit.Pixel(160);
+            column.SetDataItemTemplateContent(c =>
+            {
+                var statusUpdateUrl = DataBinder.Eval(c.DataItem, "StatusUpdateUrl");
+                ViewContext.Writer.Write($"<a href='{statusUpdateUrl}' class='btn btn-xs btn-default' data-toggle='modal' data-target='#orderStatusUpdate'><i class='fa fa-check'></i> სტატუსის შეცვლა</a>");
+            });
+        });
+    }
 
     settings.Columns.Add(column =>
     {
@@ -78,7 +97,7 @@
         column.FieldName = "DeliveryTime";
         column.Caption = "ჩაბარების თარიღი";
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        column.Width = Unit.Pixel(170);
+        column.Width = Unit.Pixel(155);
     });
 
     settings.Columns.Add(column =>
@@ -86,7 +105,7 @@
         column.FieldName = "TotalPrice";
         column.Caption = "ჯამური ფასი";
         column.ColumnType = MVCxGridViewColumnType.SpinEdit;
-        column.Width = Unit.Pixel(150);
+        column.Width = Unit.Pixel(120);
         var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
         if (spinEditProperties != null)
         {
