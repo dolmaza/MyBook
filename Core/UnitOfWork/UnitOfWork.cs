@@ -13,6 +13,7 @@ namespace Core.UnitOfWork
         IPermissionRepository PermissionRepository { get; }
         IOrderRepository OrderRepository { get; }
         IOrderDetailRepository OrderDetailRepository { get; }
+        IClientRepository ClientRepository { get; }
 
         int Complate();
     }
@@ -30,6 +31,7 @@ namespace Core.UnitOfWork
         public IPermissionRepository PermissionRepository { get; private set; }
         public IOrderRepository OrderRepository { get; private set; }
         public IOrderDetailRepository OrderDetailRepository { get; private set; }
+        public IClientRepository ClientRepository { get; private set; }
 
         public UnitOfWork(DbCoreDataContext context)
         {
@@ -41,6 +43,7 @@ namespace Core.UnitOfWork
             PermissionRepository = new PermissionRepository(_context);
             OrderRepository = new OrderRepository(_context);
             OrderDetailRepository = new OrderDetailRepository(_context);
+            ClientRepository = new ClientRepository(_context);
 
         }
 

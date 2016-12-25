@@ -6,6 +6,7 @@ namespace Core.Repositories
     public interface IOrderRepository : IRepository<Order>
     {
         Order GetWithStatus(int? ID);
+        Order GetOrderPaper(int? ID);
     }
 
     public class OrderRepository : Repository<Order>, IOrderRepository
@@ -19,6 +20,15 @@ namespace Core.Repositories
         public Order GetWithStatus(int? ID)
         {
             return GetAll().Include(o => o.Status).AsNoTracking().SingleOrDefault(o => o.ID == ID);
+        }
+
+        public Order GetOrderPaper(int? ID)
+        {
+            return GetAll()
+                .Include(o => o.Status)
+                .Include(o => o.OrderDetails)
+                .AsNoTracking()
+                .SingleOrDefault(o => o.ID == ID);
         }
     }
 }

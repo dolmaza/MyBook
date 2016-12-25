@@ -54,12 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Client.cs" />
     <Compile Include="Core\Dictionary.cs" />
     <Compile Include="Core\Order.cs" />
     <Compile Include="Core\OrderDetail.cs" />
     <Compile Include="Core\Permission.cs" />
     <Compile Include="Core\Role.cs" />
     <Compile Include="Core\User.cs" />
+    <Compile Include="DB\Configurations\ClientConfiguration.cs" />
     <Compile Include="DB\Configurations\DictionaryConfiguration.cs" />
     <Compile Include="DB\Configurations\OrderConfiguration.cs" />
     <Compile Include="DB\Configurations\OrderDetailConfiguration.cs" />
@@ -95,6 +97,14 @@
     <Compile Include="Migrations\201612111254143_AllowNullsInAllFieldsToOrdersTable.Designer.cs">
       <DependentUpon>201612111254143_AllowNullsInAllFieldsToOrdersTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612171614203_AddClientsTableAndConfiguration.cs" />
+    <Compile Include="Migrations\201612171614203_AddClientsTableAndConfiguration.Designer.cs">
+      <DependentUpon>201612171614203_AddClientsTableAndConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612171656374_AddRelationUserClients.cs" />
+    <Compile Include="Migrations\201612171656374_AddRelationUserClients.Designer.cs">
+      <DependentUpon>201612171656374_AddRelationUserClients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -102,6 +112,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\DictionaryRepository.cs" />
     <Compile Include="Repositories\OrderDetailRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
@@ -138,6 +149,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612111254143_AllowNullsInAllFieldsToOrdersTable.resx">
       <DependentUpon>201612111254143_AllowNullsInAllFieldsToOrdersTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612171614203_AddClientsTableAndConfiguration.resx">
+      <DependentUpon>201612171614203_AddClientsTableAndConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612171656374_AddRelationUserClients.resx">
+      <DependentUpon>201612171656374_AddRelationUserClients.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

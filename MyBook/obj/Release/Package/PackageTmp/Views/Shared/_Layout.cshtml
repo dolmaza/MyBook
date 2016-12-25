@@ -1,0 +1,111 @@
+﻿@{
+    var layoutViewModel = ViewBag.LayoutViewModel as LayoutViewModel;
+    layoutViewModel = layoutViewModel ?? new LayoutViewModel();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/adminLTE/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/adminLTE/css/skin-blue.min.css">
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    @RenderSection("HeaderSection", false)
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="description" content="Book sell" />
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    @StackExchange.Profiling.MiniProfiler.RenderIncludes()
+
+<div class="wrapper">
+    <header class="main-header">
+        <a href="#" class="logo">
+            <span class="logo-mini"><b>M</b>B</span>
+            <span class="logo-lg"><b>My</b>Book</span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li><a href="@layoutViewModel.LogoutUrl"><i class="fa fa-sign-out"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">მთავარი ნავიგაცია</li>
+                
+                @foreach (var menuItem in layoutViewModel.FirstLevelMenuItems)
+                {
+                    if (menuItem.HasSecondLevelMenuItems)
+                    {
+                        <li class="@(menuItem.IsActive ? Html.Raw("active") : null)">
+                            <a href="@menuItem.Url">
+                                <i class="@menuItem.IconName"></i> <span>@menuItem.Caption</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="treeview @(menuItem.IsMenuItemExpanded ? Html.Raw("active") : null)">
+                            <a href="#">
+                                <i class="@menuItem.IconName"></i>
+                                <span>@menuItem.Caption</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                @foreach (var secondLevelMenuItem in menuItem.SecondLevelMenuItems)
+                                {
+                                
+                                    <li class="@(secondLevelMenuItem.IsActive ? Html.Raw("active") : null)"><a href="@secondLevelMenuItem.Url"><i class="@secondLevelMenuItem.IconName"></i> @secondLevelMenuItem.Caption</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </section>
+    </aside>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                @ViewBag.Title
+            </h1>
+            @RenderSection("Breadcramps", false)
+        </section>
+        <section class="content">
+            @RenderBody()
+        </section>
+    </div>
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.3.0
+        </div>
+        <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<script src="~/Content/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Content/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="~/Content/plugins/fastclick/fastclick.min.js"></script>
+<script src="~/Content/plugins/adminLTE/js/app.min.js"></script>
+@RenderSection("FooterSection", false)
+</body>
+</html>

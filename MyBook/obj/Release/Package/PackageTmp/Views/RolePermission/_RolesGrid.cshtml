@@ -1,0 +1,34 @@
+﻿@model RolePermissionsRolesGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "RolesGrid";
+    settings.KeyFieldName = "ID";
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.Settings.ShowFilterRow = false;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Caption";
+        column.Caption = "დასახელება";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+        var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textBoxProperties != null)
+        {
+        }
+    });
+
+    settings.ClientSideEvents.FocusedRowChanged = "function(s,e){ OnGridViewFocusedRowChanged(s, e); }";
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        var editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.GridItems).GetHtml()

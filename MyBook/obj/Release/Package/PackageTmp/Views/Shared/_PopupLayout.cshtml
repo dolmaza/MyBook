@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/plugins/font-awesome/css/font-awesome.min.css">
+    @RenderSection("HeaderSection", false)
+</head>
+<body>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="close-popup" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title">@ViewBag.Title</h4>
+        </div>
+        <div class="modal-body">
+            @RenderBody()
+        </div>
+        <div class="modal-footer">
+            @RenderSection("ModalFooterSection", false)
+        </div>
+    </div>
+    <script src="~/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.min.js"></script>
+    @RenderSection("FooterSection", false)
+</body>
+</html>

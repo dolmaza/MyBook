@@ -1,0 +1,115 @@
+﻿@model ClientGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "ClientGrid";
+    settings.KeyFieldName = "ID";
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.VisibleIndex = 7;
+
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewRowRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateRowRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Firstname";
+        column.Caption = "სახელი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Lastname";
+        column.Caption = "გვარი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "მისამართი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Mobile";
+        column.Caption = "მობილური";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(120);
+
+        column.EditorProperties().TextBox(c =>
+        {
+
+            c.ValidationSettings.RequiredField.IsRequired = true;
+            c.MaskSettings.Mask = "(599)-999-999";
+            c.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.All;
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StatusID";
+        column.Caption = "სტატუსი";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        column.Width = Unit.Pixel(200);
+
+        column.EditorProperties().ComboBox(c =>
+        {
+            c.DataSource = Model.Statuses;
+            c.ValueField = "Key";
+            c.TextField = "Value";
+            c.ValueType = typeof(int?);
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Pixel(35);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var clientID = DataBinder.Eval(c.DataItem, "ID");
+
+            ViewContext.Writer.Write($"<a href='{Model.CreateOrderUrl}' class='create-order' data-client-id='{clientID}'><i class='fa fa-handshake-o'></i></a>");
+        });
+
+        column.SetEditItemTemplateContent(" ");
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Pixel(35);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var clientID = DataBinder.Eval(c.DataItem, "ID");
+
+            ViewContext.Writer.Write($"<a href='#' class='create-order' data-client-id='{clientID}'><i class='fa fa-book'></i></a>");
+        });
+
+        column.SetEditItemTemplateContent(" ");
+    });
+
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        var editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.GridItems).GetHtml()

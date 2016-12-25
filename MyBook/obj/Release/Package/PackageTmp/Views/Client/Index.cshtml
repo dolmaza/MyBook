@@ -1,0 +1,35 @@
+﻿@model ClientViewModel
+@{
+    ViewBag.Title = "კლიენტები";
+}
+
+@section HeaderSection {
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+}
+
+@section Breadcramps{
+    <ol class="breadcrumb">
+        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> @ViewBag.Title</a></li>
+    </ol>
+}
+
+<div class="row" id="clients-grid">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <a href="#" class="btn btn-flat btn-default" id="add-new"><i class="fa fa-plus"></i> დამატება</a>
+                <div class="box-tools pull-right">
+
+                </div>
+            </div>
+            <div class="box-body">
+                @Html.Partial("_ClientGrid", Model.GridViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection {
+    <script src="~/Content/scripts/Client/Index.js"></script>
+}

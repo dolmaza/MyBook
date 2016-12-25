@@ -45,6 +45,7 @@ namespace MyBook.Controllers
 
             UnitOfWork.Complate();
 
+
             if (UnitOfWork.IsError)
             {
                 throw new Exception(Resources.Abort);
@@ -56,23 +57,33 @@ namespace MyBook.Controllers
         [Route("users/update", Name = "UsersUpdate")]
         public ActionResult UsersUpdate([ModelBinder(typeof(DevExpressEditorsBinder))] UserGridItem model)
         {
-            UnitOfWork.UserRepository.Update(new User
-            {
-                ID = model.ID,
-                Username = model.Username,
-                Password = model.Password.ToMD5(),
-                Firstname = model.Firstname,
-                Lastname = model.Lastname,
-                IsActive = model.IsActive,
-                RoleID = model.RoleID
-            });
+            var user = UnitOfWork.UserRepository.Get(model.ID);
 
-            UnitOfWork.Complate();
-
-            if (UnitOfWork.IsError)
+            if (user == null)
             {
                 throw new Exception(Resources.Abort);
             }
+            else
+            {
+                user.ID = model.ID;
+                user.Username = model.Username;
+                user.Password = model.Password?.ToMD5() ?? user.Password;
+                user.Firstname = model.Firstname;
+                user.Lastname = model.Lastname;
+                user.IsActive = model.IsActive;
+                user.RoleID = model.RoleID;
+
+                UnitOfWork.UserRepository.Update(user);
+
+                UnitOfWork.Complate();
+
+                if (UnitOfWork.IsError)
+                {
+                    throw new Exception(Resources.Abort);
+                }
+            }
+
+
 
             return PartialView("_UserGrid", GetGridViewModel());
         }
@@ -94,13 +105,18 @@ namespace MyBook.Controllers
 
         private UserGridViewModel GetGridViewModel()
         {
+            var users = UnitOfWork.UserRepository.GetAll().OrderByDescending(u => u.CreateTime).ToList();
+            var roles = UnitOfWork.RoleRepository.GetAll().OrderByDescending(r => r.CreateTime).ToList();
+
+            UnitOfWork.Dispose();
+
             return new UserGridViewModel
             {
                 ListUrl = Url.RouteUrl("UsersGrid"),
                 AddNewUrl = Url.RouteUrl("UsersAdd"),
                 UpdateUrl = Url.RouteUrl("UsersUpdate"),
                 DeleteUrl = Url.RouteUrl("UsersDelete"),
-                GridItems = UnitOfWork.UserRepository.GetAll().Select(u => new UserGridItem
+                GridItems = users.Select(u => new UserGridItem
                 {
                     ID = u.ID,
                     Username = u.Username,
@@ -110,7 +126,7 @@ namespace MyBook.Controllers
                     RoleID = u.RoleID
                 }).ToList(),
 
-                Roles = UnitOfWork.RoleRepository.GetAll().Select(r => new SimpleKeyValue<int?, string>
+                Roles = roles.Select(r => new SimpleKeyValue<int?, string>
                 {
                     Key = r.ID,
                     Value = r.Caption

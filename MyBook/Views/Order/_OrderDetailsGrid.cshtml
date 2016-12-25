@@ -25,11 +25,12 @@
         column.Caption = "წიგნი";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
-        var textEditProperties = column.PropertiesEdit as TextEditProperties;
-        if (textEditProperties != null)
+
+        column.EditorProperties().TextBox(c =>
         {
-            textEditProperties.ValidationSettings.RequiredField.IsRequired = true;
-        }
+            c.ValidationSettings.RequiredField.IsRequired = true;
+
+        });
     });
 
     settings.Columns.Add(column =>
@@ -38,12 +39,13 @@
         column.Caption = "ფასი";
         column.ColumnType = MVCxGridViewColumnType.SpinEdit;
         column.Width = Unit.Pixel(150);
-        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
-        if (spinEditProperties != null)
+
+        column.EditorProperties().SpinEdit(c =>
         {
-            spinEditProperties.ValidationSettings.RequiredField.IsRequired = true;
-            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
-        }
+            c.ValidationSettings.RequiredField.IsRequired = true;
+            c.SpinButtons.ShowIncrementButtons = false;
+        });
+
     });
 
 

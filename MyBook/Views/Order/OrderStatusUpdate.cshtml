@@ -1,0 +1,31 @@
+﻿@model OrderStatusUpdateViewModel
+@{
+    ViewBag.Title = "სტატუსის ცვლილება";
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>სტატუსი</label>
+            <select class="form-control" id="status">
+                @foreach(var status in Model.Statuses)
+                {
+                    <option @(status.IsSelected ? Html.Raw("selected='selected'") : null) value="@status.Key">@status.Value</option>
+                }
+            </select>
+        </div>
+
+
+        @section ModalFooterSection{
+            <button type="button" id="save-status" class="btn btn-success pull-right"><i class="fa fa-floppy-o"></i> შენახვა</button>
+        }
+    </div>
+</div>
+
+@section FooterSection{
+    <script>
+        var statusSaveUrl = "@Model.StatusSaveUrl";
+    </script>
+    <script src="~/Content/scripts/Order/OrderStatusChange.js"></script>
+}

@@ -38,6 +38,7 @@ namespace MyBook.Models
             ViewBag.LayoutViewModel = model;
         }
 
+        [Route("not-found", Name = "NotFound")]
         public ActionResult NotFound()
         {
             return View("NotFound");

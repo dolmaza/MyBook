@@ -1,0 +1,37 @@
+﻿@model OrderViewModel
+@{
+    ViewBag.Title = "შეკვეთები";
+}
+
+@section HeaderSection {
+    <link href="~/Content/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" />
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+}
+
+@section Breadcramps{
+    <ol class="breadcrumb">
+        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> @ViewBag.Title</a></li>
+    </ol>
+}
+
+<div class="row" id="orders-grid">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-tools pull-right">
+
+                </div>
+            </div>
+            <div class="box-body">
+                @Html.Partial("_OrderGrid", Model.GridViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection {
+    <script src="~/Content/plugins/fancybox/jquery.fancybox.js"></script>
+    <script src="~/Content/plugins/fancybox/FancyMethods.js"></script>
+    <script src="~/Content/scripts/Order/Index.js"></script>
+}

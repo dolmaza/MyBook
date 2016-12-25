@@ -7,7 +7,8 @@
 
 
     $("#deliveryTime").datepicker({
-        dateFormat: formatDateJs
+        dateFormat: formatDateJs,
+        minDate: 0 
     });
 
     $("#mobile").mask("(599)-999-999");

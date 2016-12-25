@@ -22,11 +22,13 @@ namespace Core
 
         public ICollection<Dictionary> Childrens { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Client> Clients { get; set; }
 
         public Dictionary()
         {
             Childrens = new List<Dictionary>();
             Orders = new List<Order>();
+            Clients = new List<Client>();
             CreateTime = DateTime.Now;
         }
     }

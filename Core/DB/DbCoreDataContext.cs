@@ -19,6 +19,7 @@ namespace Core.DB
             modelBuilder.Configurations.Add(new PermissionConfiguration());
             modelBuilder.Configurations.Add(new OrderConfiguration());
             modelBuilder.Configurations.Add(new OrderDetailConfiguration());
+            modelBuilder.Configurations.Add(new ClientConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -29,5 +30,7 @@ namespace Core.DB
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetailses { get; set; }
+        public DbSet<Client> Clients { get; set; }
+
     }
 }

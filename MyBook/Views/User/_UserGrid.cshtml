@@ -22,11 +22,12 @@
         column.Caption = "Username";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
-        var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
-        if (textBoxProperties != null)
+
+        column.EditorProperties().TextBox(c =>
         {
-            textBoxProperties.ValidationSettings.RequiredField.IsRequired = true;
-        }
+            c.ValidationSettings.RequiredField.IsRequired = true;
+
+        });
     });
 
     settings.Columns.Add(column =>
@@ -35,11 +36,6 @@
         column.Caption = "პაროლი";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
-
-        var textBoxProperties = column.PropertiesEdit as TextBoxProperties;
-        if (textBoxProperties != null)
-        {
-        }
 
         column.SetDataItemTemplateContent(c =>
         {
@@ -67,12 +63,11 @@
     settings.Columns.Add(column =>
     {
         column.FieldName = "IsActive"; column.Caption = "აქტიურია?"; column.Width = Unit.Pixel(100); column.ColumnType = MVCxGridViewColumnType.CheckBox;
-        var checkBoxProperties = column.PropertiesEdit as CheckBoxProperties;
-        if (checkBoxProperties != null)
+        column.EditorProperties().CheckBox(c =>
         {
-            checkBoxProperties.ClientInstanceName = "IsActiveCheckBox";
-            checkBoxProperties.ClientSideEvents.Init = "function(s,e){ OnIsActiveCheckBoxInit(s,e); }";
-        }
+            c.ClientInstanceName = "IsActiveCheckBox";
+            c.ClientSideEvents.Init = "function(s,e){ OnIsActiveCheckBoxInit(s,e); }";
+        });
 
     });
 
@@ -82,15 +77,15 @@
         column.Caption = "როლი";
         column.ColumnType = MVCxGridViewColumnType.ComboBox;
         column.Width = Unit.Pixel(150);
-        var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
-        if (comboboxProperties != null)
+        column.EditorProperties().ComboBox(c =>
         {
-            comboboxProperties.DataSource = Model.Roles;
-            comboboxProperties.ValueField = "Key";
-            comboboxProperties.TextField = "Value";
-            comboboxProperties.ValueType = typeof(int?);
-            comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
-        }
+            c.DataSource = Model.Roles;
+            c.ValueField = "Key";
+            c.TextField = "Value";
+            c.ValueType = typeof(int?);
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
 
     });
 

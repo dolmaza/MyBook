@@ -24,8 +24,8 @@
         column.Width = Unit.Pixel(30);
         column.SetDataItemTemplateContent(c =>
         {
-            var detailsUrl = DataBinder.Eval(c.DataItem, "DetailsUrl");
-            ViewContext.Writer.Write($"<a href='{detailsUrl}'><i class='fa fa-info-circle'></i></a>");
+            var paperUrl = DataBinder.Eval(c.DataItem, "PaperUrl");
+            ViewContext.Writer.Write($"<a href='{paperUrl}' class='order-paper'><i class='fa fa-info-circle'></i></a>");
         });
     });
 
@@ -47,7 +47,8 @@
             column.SetDataItemTemplateContent(c =>
             {
                 var statusUpdateUrl = DataBinder.Eval(c.DataItem, "StatusUpdateUrl");
-                ViewContext.Writer.Write($"<a href='{statusUpdateUrl}' class='btn btn-xs btn-default' data-toggle='modal' data-target='#orderStatusUpdate'><i class='fa fa-check'></i> სტატუსის შეცვლა</a>");
+
+                ViewContext.Writer.Write($"<a href='{statusUpdateUrl}' class='btn btn-xs btn-default order-status-change-button'><i class='fa fa-check'></i> სტატუსის შეცვლა</a>");
             });
         });
     }
@@ -58,15 +59,15 @@
         column.Caption = "სტატუსი";
         column.ColumnType = MVCxGridViewColumnType.ComboBox;
         column.Width = Unit.Pixel(150);
-        var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
-        if (comboboxProperties != null)
+
+        column.EditorProperties().ComboBox(c =>
         {
-            comboboxProperties.DataSource = Model.Statuses;
-            comboboxProperties.ValueField = "Key";
-            comboboxProperties.TextField = "Value";
-            comboboxProperties.ValueType = typeof(int?);
-            comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
-        }
+            c.DataSource = Model.Statuses;
+            c.ValueField = "Key";
+            c.TextField = "Value";
+            c.ValueType = typeof(int?);
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
 
     });
 
@@ -78,15 +79,15 @@
             column.Caption = "ბროკერი";
             column.ColumnType = MVCxGridViewColumnType.ComboBox;
             column.Width = Unit.Pixel(200);
-            var comboboxProperties = column.PropertiesEdit as ComboBoxProperties;
-            if (comboboxProperties != null)
+
+            column.EditorProperties().ComboBox(c =>
             {
-                comboboxProperties.DataSource = Model.Users;
-                comboboxProperties.ValueField = "Key";
-                comboboxProperties.TextField = "Value";
-                comboboxProperties.ValueType = typeof(int?);
-                comboboxProperties.ValidationSettings.RequiredField.IsRequired = true;
-            }
+                c.DataSource = Model.Users;
+                c.ValueField = "Key";
+                c.TextField = "Value";
+                c.ValueType = typeof(int?);
+                c.ValidationSettings.RequiredField.IsRequired = true;
+            });
 
         });
 
@@ -106,11 +107,11 @@
         column.Caption = "ჯამური ფასი";
         column.ColumnType = MVCxGridViewColumnType.SpinEdit;
         column.Width = Unit.Pixel(120);
-        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
-        if (spinEditProperties != null)
+
+        column.EditorProperties().SpinEdit(c =>
         {
-            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
-        }
+            c.SpinButtons.ShowIncrementButtons = false;
+        });
     });
 
     settings.Columns.Add(column =>

@@ -1,0 +1,63 @@
+﻿@model OrderDetailsGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "OrderDetailsGrid";
+    settings.KeyFieldName = "ID";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.VisibleIndex = 2;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewRowRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateRowRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.Settings.ShowFilterRow = false;
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookName";
+        column.Caption = "წიგნი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Price";
+        column.Caption = "ფასი";
+        column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().SpinEdit(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+            c.SpinButtons.ShowIncrementButtons = false;
+        });
+
+    });
+
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Price").DisplayFormat = "c";
+
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        var editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.GridItems).GetHtml()

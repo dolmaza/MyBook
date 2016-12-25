@@ -1,0 +1,35 @@
+﻿@model DictionaryViewModel
+@{
+    ViewBag.Title = "ცნობარები";
+}
+
+@section HeaderSection {
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.TreeList })
+}
+
+@section Breadcramps{
+    <ol class="breadcrumb">
+        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> @ViewBag.Title</a></li>
+    </ol>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <a href="#" class="btn btn-flat btn-default" id="add-new"><i class="fa fa-plus"></i> დამატება</a>
+                <div class="box-tools pull-right">
+                    
+                </div>
+            </div>
+            <div class="box-body">
+                @Html.Partial("_DictionaryTree", Model.TreeViewModel)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section FooterSection {
+    <script src="~/Content/scripts/Dictionary/Index.js"></script>
+}

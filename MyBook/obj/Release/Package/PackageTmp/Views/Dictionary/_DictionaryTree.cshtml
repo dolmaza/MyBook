@@ -1,0 +1,125 @@
+﻿@model DictionaryTreeViewModel
+@Html.DevExpress().TreeList(settings =>
+{
+    settings = Model.GenerateTreeListDefaultSettings(settings);
+    settings.Name = "DictionariesTree";
+
+    settings.KeyFieldName = "ID";
+    settings.ParentFieldName = "ParentID";
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewNodeRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateNodeRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteNodeRouteValues = Model.DeleteUrl;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.NewButton.Visible = true;
+    settings.CommandColumn.DeleteButton.Visible = true;
+    settings.CommandColumn.EditButton.Visible = true;
+    settings.CommandColumn.VisibleIndex = 7;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Caption";
+        column.Caption = "დასახელება";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+            textboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CaptionEng";
+        column.Caption = "დასახელება ინგლ.";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StringCode";
+        column.Caption = "სტრიქ. კოდი";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(100);
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IntCode";
+        column.Caption = "რიცხ. კოდი";
+        column.ColumnType = MVCxTreeListColumnType.SpinEdit;
+        column.Width = Unit.Pixel(100);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.Visible = false;
+            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
+            spinEditProperties.AllowMouseWheel = false;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DecimalValue";
+        column.Caption = "მთელი მნიშვ.";
+        column.ColumnType = MVCxTreeListColumnType.SpinEdit;
+        column.Width = Unit.Pixel(100);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.Visible = false;
+            spinEditProperties.AllowMouseWheel = false;
+            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
+            //spinEditProperties.DisplayFormatString = "";
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Code";
+        column.Caption = "ცნობარის კოდი";
+        column.ColumnType = MVCxTreeListColumnType.SpinEdit;
+        column.Width = Unit.Pixel(100);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.Visible = false;
+            spinEditProperties.AllowMouseWheel = false;
+            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
+            spinEditProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SortIndex";
+        column.Caption = "სორტ. ინდექსი";
+        column.ColumnType = MVCxTreeListColumnType.SpinEdit;
+        column.Width = Unit.Pixel(100);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.Visible = false;
+            spinEditProperties.SpinButtons.ShowIncrementButtons = false;
+            spinEditProperties.AllowMouseWheel = false;
+        }
+    });
+
+    settings.Columns.Add(column => { column.SetEditCellTemplateContent(" "); });
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.TreeItems).GetHtml()

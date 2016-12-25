@@ -21,7 +21,6 @@ namespace MyBook.Controllers
             var model = new OrderViewModel
             {
                 GridViewModel = GetOrderGridViewModel(),
-                AddNewOrderUrl = Url.RouteUrl("OrdersAdd"),
             };
 
             return View(model);
@@ -31,32 +30,6 @@ namespace MyBook.Controllers
         public ActionResult OrderGrid()
         {
             return PartialView("_OrderGrid", GetOrderGridViewModel());
-        }
-
-        [Route("orders/{orderID}/status-update", Name = "OrderStatusUpdate")]
-        public ActionResult OrderStatusUpdate(int? orderID, int? statusID)
-        {
-            var ajaxResponse = new AjaxResponse();
-
-            var order = UnitOfWork.OrderRepository.Get(orderID);
-
-            order.StatusID = statusID;
-
-            UnitOfWork.Complate();
-
-            if (UnitOfWork.IsError)
-            {
-                ajaxResponse.Data = new
-                {
-                    Message = Resources.Abort
-                };
-            }
-            else
-            {
-                ajaxResponse.IsSuccess = true;
-            }
-
-            return Json(ajaxResponse);
         }
 
         [Route("orders/delete", Name = "OrdersDelete")]
@@ -101,6 +74,7 @@ namespace MyBook.Controllers
                     CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
 
                     EdutUrl = Url.RouteUrl("OrdersEdit", new { ID = o.ID }),
+                    PaperUrl = Url.RouteUrl("OrderPaper", new { orderID = o.ID }),
                     StatusUpdateUrl = Url.RouteUrl("OrderStatusUpdate", new { orderID = o.ID })
                 }).ToList(),
 
@@ -121,27 +95,66 @@ namespace MyBook.Controllers
 
         #region Form
 
+        [HttpPost]
         [Route("orders/add", Name = "OrdersAdd")]
-        public ActionResult OrdersAdd()
+        public ActionResult OrdersAdd(int? clientID)
         {
-            var status = UnitOfWork.DictionaryRepository.Get(1, 1, OrderStatus.PENDING);
-            if (status == null)
+            var ajaxResponse = new AjaxResponse();
+            var client = UnitOfWork.ClientRepository.Get(clientID);
+
+            if (client == null)
             {
-                return NotFound();
+                ajaxResponse.Data = new
+                {
+                    RedirectUrl = Url.RouteUrl("NotFound")
+                };
             }
             else
             {
-                var order = new Order
+                var status = UnitOfWork.DictionaryRepository.Get(1, 1, OrderStatus.PENDING);
+                if (status == null)
                 {
-                    TotalPrice = 0,
-                    UserID = UserItem.ID,
-                    StatusID = status.ID
-                };
+                    ajaxResponse.Data = new
+                    {
+                        RedirectUrl = Url.RouteUrl("NotFound")
+                    };
+                }
+                else
+                {
+                    var order = new Order
+                    {
+                        TotalPrice = 0,
+                        UserID = UserItem.ID,
+                        StatusID = status.ID,
+                        Firstname = client.Firstname,
+                        Lastname = client.Lastname,
+                        Address = client.Address,
+                        Mobile = client.Mobile,
+                        ClientID = client.ID
+                    };
 
-                UnitOfWork.OrderRepository.Add(order);
-                UnitOfWork.Complate();
-                return UnitOfWork.IsError ? NotFound() : RedirectToRoute("OrdersEdit", new { ID = order.ID });
+                    UnitOfWork.OrderRepository.Add(order);
+                    UnitOfWork.Complate();
+
+                    if (UnitOfWork.IsError)
+                    {
+                        ajaxResponse.Data = new
+                        {
+                            Message = Resources.Abort
+                        };
+                    }
+                    else
+                    {
+                        ajaxResponse.IsSuccess = true;
+                        ajaxResponse.Data = new
+                        {
+                            RedirectUrl = Url.RouteUrl("OrdersEdit", new { ID = order.ID })
+                        };
+                    }
+                }
             }
+            return Json(ajaxResponse);
+
         }
 
         [Route("orders/{ID}/edit", Name = "OrdersEdit")]
@@ -164,38 +177,48 @@ namespace MyBook.Controllers
             var ajaxResponse = new AjaxResponse();
             model = GetOrderFormViewModel(model.ID, model);
 
-            UnitOfWork.OrderRepository.Update(new Order
+            if (model == null)
             {
-                ID = model.ID,
-                UserID = model.UserID,
-                StatusID = model.StatusID,
-                Firstname = model.Firstname,
-                Lastname = model.Lastname,
-                Address = model.Address,
-                Mobile = model.Mobile,
-                DeliveryTime = model.DeliveryTime.ToDateTime(),
-                Note = model.Note
-            });
-
-            UnitOfWork.Complate();
-
-            if (UnitOfWork.IsError)
-            {
-                ajaxResponse.Data = new
-                {
-                    Message = Resources.Abort
-                };
+                return NotFound();
             }
             else
             {
-                ajaxResponse.IsSuccess = true;
-                ajaxResponse.Data = new
+
+                UnitOfWork.OrderRepository.Update(new Order
                 {
-                    Message = Resources.Success
-                };
+                    ID = model.ID,
+                    UserID = model.UserID,
+                    StatusID = model.StatusID,
+                    ClientID = model.ClientID,
+                    Firstname = model.Firstname,
+                    Lastname = model.Lastname,
+                    Address = model.Address,
+                    Mobile = model.Mobile,
+                    DeliveryTime = model.DeliveryTime.ToDateTime(),
+                    Note = model.Note
+                });
+
+                UnitOfWork.Complate();
+
+                if (UnitOfWork.IsError)
+                {
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Abort
+                    };
+                }
+                else
+                {
+                    ajaxResponse.IsSuccess = true;
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Success
+                    };
+                }
+
+                return Json(ajaxResponse);
             }
 
-            return Json(ajaxResponse);
         }
 
         private OrdersFormViewModel GetOrderFormViewModel(int? orderID, OrdersFormViewModel model = null)
@@ -223,6 +246,7 @@ namespace MyBook.Controllers
                 }
                 model.UserID = order.UserID;
                 model.StatusID = order.StatusID;
+                model.ClientID = order.ClientID;
                 model.SaveOrderPropertiesUrl = Url.RouteUrl("OrdersEdit", new { ID = orderID });
                 model.OrdersUrl = Url.RouteUrl("Orders");
                 model.OrderDetailsGridViewModel = GetOrderDetailsGridViewModel(orderID);
@@ -311,6 +335,170 @@ namespace MyBook.Controllers
                     ID = o.ID,
                     BookName = o.BookName,
                     Price = $"{o.Price:0.00}"
+                }).ToList()
+            };
+        }
+
+        [Route("orders/sold-books", Name = "SoldBooks")]
+        public ActionResult SoldBooks()
+        {
+            var model = new SoldBooksViewModel
+            {
+                GridViewModel = GetSoldBooksGridViewModel()
+            };
+
+            return View(model);
+        }
+
+        [Route("orders/sold-books/grid", Name = "SoldBooksGrid")]
+        public ActionResult SoldBooksGrid()
+        {
+            return PartialView("_SoldBooksGrid", GetSoldBooksGridViewModel());
+        }
+
+        private SoldBooksGridViewModel GetSoldBooksGridViewModel()
+        {
+            var soldBooks = UserItem.Role.Code == RoleCode.ADMIN
+                ? UnitOfWork.OrderDetailRepository.GetAll()
+                    .Include(od => od.Order)
+                    .Include(od => od.Order.Status)
+                    .Include(od => od.Order.Client)
+                    .Where(od => od.Order.Status.IntCode == OrderStatus.COMPLATED)
+                    .OrderByDescending(od => od.CreateTime)
+                    .ToList() :
+                    UnitOfWork.OrderDetailRepository.GetAll()
+                    .Include(od => od.Order)
+                    .Include(od => od.Order.Client)
+                    .Include(od => od.Order.Status)
+                    .Where(od => od.Order.UserID == UserItem.ID && od.Order.Status.IntCode == OrderStatus.COMPLATED)
+                    .OrderByDescending(od => od.CreateTime)
+                    .ToList();
+
+            var clients = UserItem.Role.Code == RoleCode.ADMIN
+                ? UnitOfWork.ClientRepository.GetAll().ToList()
+                : UnitOfWork.ClientRepository.GetAll().Where(c => c.UserID == UserItem.ID).ToList();
+
+            return new SoldBooksGridViewModel
+            {
+                ListUrl = Url.RouteUrl("SoldBooksGrid"),
+                CreateOrderUrl = Url.RouteUrl("OrdersAdd"),
+
+                GridItems = soldBooks.Select(s => new SoldBookGridItem
+                {
+                    ID = s.ID,
+                    ClientID = s.Order.ClientID,
+                    Mobile = s.Order.Client.Mobile,
+                    BookName = s.BookName,
+                    Price = $"{s.Price:0.00}"
+                }).ToList(),
+
+                Clients = clients.Select(c => new SimpleKeyValue<int?, string>
+                {
+                    Key = c.ID,
+                    Value = $"{c.Firstname} {c.Lastname}"
+                }).ToList()
+            };
+        }
+
+        #endregion
+
+        #region Popup
+
+        [Route("orders/{orderID}/status-update", Name = "OrderStatusUpdate")]
+        public ActionResult OrderStatusUpdate(int? orderID)
+        {
+            var order = UnitOfWork.OrderRepository.Get(orderID);
+            var model = new OrderStatusUpdateViewModel
+            {
+                Statuses = UnitOfWork.DictionaryRepository.GetAll(1, 1).Select(s => new SimpleKeyValue<int?, string>
+                {
+                    Key = s.ID,
+                    Value = s.Caption,
+                    IsSelected = order.StatusID == s.ID
+                }).ToList(),
+
+                StatusSaveUrl = Url.RouteUrl("OrderStatusUpdate", new { orderID = orderID })
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("orders/{orderID}/status-update")]
+        public ActionResult OrderStatusUpdate(int? orderID, OrderStatusUpdateViewModel model)
+        {
+            var ajaxResponse = new AjaxResponse();
+
+            var order = UnitOfWork.OrderRepository.Get(orderID);
+
+            order.StatusID = model.StatusID;
+
+            UnitOfWork.Complate();
+
+            if (UnitOfWork.IsError)
+            {
+                ajaxResponse.Data = new
+                {
+                    Message = Resources.Abort
+                };
+            }
+            else
+            {
+                ajaxResponse.IsSuccess = true;
+            }
+
+            return Json(ajaxResponse);
+        }
+
+        [Route("orders/{orderID}/paper", Name = "OrderPaper")]
+        public ActionResult OrderPaper(int? orderID)
+        {
+            var order = UnitOfWork.OrderRepository.GetOrderPaper(orderID);
+            UnitOfWork.Dispose();
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var model = new OrderPaperViewModel
+                {
+                    Firstname = order.Firstname,
+                    Lastname = order.Lastname,
+                    Address = order.Address,
+                    Mobile = order.Mobile,
+                    DeliveryTime = order.DeliveryTime?.ToString(Resources.FormatDate),
+                    Note = order.Note,
+                    Status = order.Status.Caption,
+
+                    Grid = GetOrderPaperGridViewModel(order)
+                };
+
+                return View(model);
+            }
+
+        }
+
+        [Route("orders/{orderID}/paper/grid", Name = "OrderPaperGird")]
+        public ActionResult OrderPaperGrid(int? orderID)
+        {
+            var order = UnitOfWork.OrderRepository.GetOrderPaper(orderID);
+            UnitOfWork.Dispose();
+
+            return PartialView("_OrderPaperGrid", GetOrderPaperGridViewModel(order));
+        }
+
+        private OrderPaperViewModel.GridViewModel GetOrderPaperGridViewModel(Order order)
+        {
+            return new OrderPaperViewModel.GridViewModel
+            {
+                ListUrl = Url.RouteUrl("OrderPaperGird", new { orderID = order.ID }),
+                GridItems = order.OrderDetails.Select(od => new OrderPaperViewModel.GridViewModel.GridItem
+                {
+                    ID = od.ID,
+                    BookName = od.BookName,
+                    Price = $"{od.Price:0.00}"
                 }).ToList()
             };
         }

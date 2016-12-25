@@ -168,6 +168,22 @@
     <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\plugins\bootstrap\js\npm.js" />
+    <Content Include="Content\plugins\fancybox\blank.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\plugins\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\plugins\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\plugins\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\plugins\fancybox\FancyMethods.js" />
+    <Content Include="Content\plugins\fancybox\helpers\fancybox_buttons.png" />
+    <Content Include="Content\plugins\fancybox\helpers\jquery.fancybox-buttons.css" />
+    <Content Include="Content\plugins\fancybox\helpers\jquery.fancybox-buttons.js" />
+    <Content Include="Content\plugins\fancybox\helpers\jquery.fancybox-media.js" />
+    <Content Include="Content\plugins\fancybox\helpers\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\plugins\fancybox\helpers\jquery.fancybox-thumbs.js" />
+    <Content Include="Content\plugins\fancybox\jquery.fancybox.css" />
+    <Content Include="Content\plugins\fancybox\jquery.fancybox.js" />
+    <Content Include="Content\plugins\fancybox\jquery.fancybox.pack.js" />
     <Content Include="Content\plugins\fastclick\fastclick.min.js" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -183,8 +199,13 @@
     <Content Include="Content\plugins\jQuery\jquery.numeric-input.js" />
     <Content Include="Content\plugins\jQuery\masked-input.js" />
     <Content Include="Content\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\scripts\Client\Index.js" />
     <Content Include="Content\scripts\Dictionary\Index.js" />
+    <Content Include="Content\scripts\Order\Index.js" />
     <Content Include="Content\scripts\Order\OrderEdit.js" />
+    <Content Include="Content\scripts\Order\OrderPaper.js" />
+    <Content Include="Content\scripts\Order\OrderStatusChange.js" />
+    <Content Include="Content\scripts\Order\SoldBooks.js" />
     <Content Include="Content\scripts\Permission\Index.js" />
     <Content Include="Content\scripts\RolePermission\Index.js" />
     <Content Include="Content\scripts\Role\Index.js" />
@@ -194,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -204,6 +226,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\DictionaryViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\LayoutViewModel.cs" />
@@ -250,6 +273,15 @@
     <Content Include="Views\Order\_OrderGrid.cshtml" />
     <Content Include="Views\Order\OrdersEdit.cshtml" />
     <Content Include="Views\Order\_OrderDetailsGrid.cshtml" />
+    <Content Include="Views\Shared\_PopupLayout.cshtml" />
+    <Content Include="Views\Order\OrderStatusUpdate.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\_ClientGrid.cshtml" />
+    <Content Include="Views\Order\OrderPaper.cshtml" />
+    <Content Include="Views\Order\_OrderPaperGrid.cshtml" />
+    <Content Include="Views\Order\SoldBooks.cshtml" />
+    <Content Include="Views\Order\_SoldBooksGrid.cshtml" />
+    <None Include="Properties\PublishProfiles\gayide - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

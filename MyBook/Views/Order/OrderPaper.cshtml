@@ -1,0 +1,50 @@
+﻿@model OrderPaperViewModel
+@{
+    ViewBag.Title = "შეკვეთის ფურცელი";
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@section HeaderSection {
+    <link href="~/Content/plugins/adminLTE/css/AdminLTE.min.css" rel="stylesheet" />
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-xs-6">
+                <p> <strong>სახელი: </strong> @Model.Firstname</p>
+            </div>
+            <div class="col-xs-6">
+                <p> <strong>გვარი: </strong> @Model.Lastname</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p> <strong>მისამართი: </strong> @Model.Address</p>
+            </div>
+            <div class="col-xs-6">
+                <p> <strong>მობილური: </strong> @Model.Mobile</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p> <strong>ჩაბარების თარიღი: </strong> @Model.DeliveryTime</p>
+            </div>
+            <div class="col-xs-6">
+                <p> <strong>შენიშვნა: </strong> @Model.Note</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_OrderPaperGrid", Model.Grid)
+    </div>
+</div>
+
+@section FooterSection {
+    <script src="~/Content/scripts/Order/OrderPaper.js"></script>
+}

@@ -1,0 +1,93 @@
+﻿@model SoldBooksGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "SoldBooksGrid";
+    settings.KeyFieldName = "ID";
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsPager.Mode = GridViewPagerMode.ShowAllRecords;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookName";
+        column.Caption = "წიგნი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Price";
+        column.Caption = "ფასი";
+        column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().SpinEdit(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+            c.SpinButtons.ShowIncrementButtons = false;
+        });
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ClientID";
+        column.Caption = "კლიენტი";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().ComboBox(c =>
+        {
+            c.DataSource = Model.Clients;
+            c.ValueField = "Key";
+            c.TextField = "Value";
+            c.ValueType = typeof(int?);
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Mobile";
+        column.Caption = "მობილური";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(120);
+
+        column.EditorProperties().TextBox(c =>
+        {
+
+            c.ValidationSettings.RequiredField.IsRequired = true;
+            c.MaskSettings.Mask = "(599)-999-999";
+            c.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.All;
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Width = Unit.Pixel(35);
+        column.SetDataItemTemplateContent(c =>
+        {
+            var clientID = DataBinder.Eval(c.DataItem, "ClientID");
+
+            ViewContext.Writer.Write($"<a href='{Model.CreateOrderUrl}' class='create-order' data-client-id='{clientID}'><i class='fa fa-handshake-o'></i></a>");
+        });
+
+        column.SetEditItemTemplateContent(" ");
+    });
+
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Price").DisplayFormat = "c";
+
+
+}).Bind(Model.GridItems).GetHtml()

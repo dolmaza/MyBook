@@ -96,13 +96,16 @@ namespace MyBook.Controllers
 
         private DictionaryTreeViewModel GetTreeViewModel()
         {
+            var dictionaries = UnitOfWork.DictionaryRepository.GetAll().OrderBy(d => d.SortIndex).ToList();
+            UnitOfWork.Dispose();
+
             return new DictionaryTreeViewModel
             {
                 ListUrl = Url.RouteUrl("DictioanriesTree"),
                 AddNewUrl = Url.RouteUrl("DictionariesAdd"),
                 UpdateUrl = Url.RouteUrl("DictionariesUpdate"),
                 DeleteUrl = Url.RouteUrl("DictionariesDelete"),
-                TreeItems = UnitOfWork.DictionaryRepository.GetAll().Select(d => new DictionaryTreeItem
+                TreeItems = dictionaries.Select(d => new DictionaryTreeItem
                 {
                     ID = d.ID,
                     ParentID = d.ParentID,

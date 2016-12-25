@@ -16,11 +16,13 @@ namespace Core
 
         public Role Role { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Client> Clients { get; set; }
 
         public User()
         {
             CreateTime = DateTime.Now;
             Orders = new List<Order>();
+            Clients = new List<Client>();
         }
     }
 }

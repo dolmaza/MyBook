@@ -96,13 +96,16 @@ namespace MyBook.Controllers
 
         private PermissionTreeViewModel GetTreeViewModel()
         {
+            var permissions = UnitOfWork.PermissionRepository.GetAll().OrderBy(p => p.SortIndex).ToList();
+            UnitOfWork.Dispose();
+
             return new PermissionTreeViewModel
             {
                 ListUrl = Url.RouteUrl("PermissionsTree"),
                 AddNewUrl = Url.RouteUrl("PermissionsAdd"),
                 UpdateUrl = Url.RouteUrl("PermissionsUpdate"),
                 DeleteUrl = Url.RouteUrl("PermissionsDelete"),
-                TreeItems = UnitOfWork.PermissionRepository.GetAll().Select(p => new PermissionTreeItem
+                TreeItems = permissions.Select(p => new PermissionTreeItem
                 {
                     ID = p.ID,
                     ParentID = p.ParentID,

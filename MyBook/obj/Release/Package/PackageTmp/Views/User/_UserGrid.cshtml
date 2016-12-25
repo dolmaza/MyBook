@@ -1,0 +1,100 @@
+﻿@model UserGridViewModel
+@Html.DevExpress().GridView(settings =>
+{
+    settings = Model.GenerateGridViewDefaultSettings(settings);
+    settings.Name = "UserGrid";
+    settings.KeyFieldName = "ID";
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.VisibleIndex = 6;
+
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewRowRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateRowRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Username";
+        column.Caption = "Username";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+
+        });
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Password";
+        column.Caption = "პაროლი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("*****");
+        });
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Firstname";
+        column.Caption = "სახელი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Lastname";
+        column.Caption = "გვარი";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsActive"; column.Caption = "აქტიურია?"; column.Width = Unit.Pixel(100); column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.EditorProperties().CheckBox(c =>
+        {
+            c.ClientInstanceName = "IsActiveCheckBox";
+            c.ClientSideEvents.Init = "function(s,e){ OnIsActiveCheckBoxInit(s,e); }";
+        });
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RoleID";
+        column.Caption = "როლი";
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        column.Width = Unit.Pixel(150);
+        column.EditorProperties().ComboBox(c =>
+        {
+            c.DataSource = Model.Roles;
+            c.ValueField = "Key";
+            c.TextField = "Value";
+            c.ValueType = typeof(int?);
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+
+    });
+
+    settings.Columns.Add(column => { column.SetEditItemTemplateContent(" "); });
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        var editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.GridItems).GetHtml()

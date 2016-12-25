@@ -1,0 +1,104 @@
+﻿@model PermissionTreeViewModel
+@Html.DevExpress().TreeList(settings =>
+{
+    settings = Model.GenerateTreeListDefaultSettings(settings);
+    settings.Name = "PermissionTree";
+
+    settings.KeyFieldName = "ID";
+    settings.ParentFieldName = "ParentID";
+
+    settings.CallbackRouteValues = Model.ListUrl;
+    settings.SettingsEditing.AddNewNodeRouteValues = Model.AddNewUrl;
+    settings.SettingsEditing.UpdateNodeRouteValues = Model.UpdateUrl;
+    settings.SettingsEditing.DeleteNodeRouteValues = Model.DeleteUrl;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.NewButton.Visible = true;
+    settings.CommandColumn.DeleteButton.Visible = true;
+    settings.CommandColumn.EditButton.Visible = true;
+    settings.CommandColumn.VisibleIndex = 0;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Caption";
+        column.Caption = "დასახელება";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(300);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+            textboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Url";
+        column.Caption = "გვერდის მისამართი";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(260);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Code";
+        column.Caption = "კოდი";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(300);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IconName";
+        column.Caption = "აიკონის დასახელება";
+        column.ColumnType = MVCxTreeListColumnType.TextBox;
+        column.Width = Unit.Pixel(170);
+        var textboxProperties = column.PropertiesEdit as TextBoxProperties;
+        if (textboxProperties != null)
+        {
+        }
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsMenuItem"; column.Caption = "მენიუში გამოჩენა"; column.Width = Unit.Pixel(150); column.ColumnType = MVCxTreeListColumnType.CheckBox;
+        var checkBoxProperties = column.PropertiesEdit as CheckBoxProperties;
+        if (checkBoxProperties != null)
+        {
+        }
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SortIndex";
+        column.Caption = "სორტ. ინდექსი";
+        column.ColumnType = MVCxTreeListColumnType.SpinEdit;
+        column.Width = Unit.Pixel(130);
+        var spinEditProperties = column.PropertiesEdit as SpinEditProperties;
+        if (spinEditProperties != null)
+        {
+            spinEditProperties.SpinButtons.Visible = false;
+            spinEditProperties.AllowMouseWheel = false;
+        }
+    });
+
+    settings.Columns.Add(column => { column.SetEditCellTemplateContent(" "); });
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.Dynamic;
+    };
+
+}).Bind(Model.TreeItems).GetHtml()

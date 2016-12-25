@@ -9,7 +9,6 @@ namespace MyBook.Models
         public OrderGridViewModel GridViewModel { get; set; }
 
         public string AddNewOrderUrl { get; set; }
-        public string OrdersUrl { get; set; }
 
     }
 
@@ -39,7 +38,7 @@ namespace MyBook.Models
         public string Note { get; set; }
         public string CreateTime { get; set; }
 
-        public string DetailsUrl { get; set; }
+        public string PaperUrl { get; set; }
         public string EdutUrl { get; set; }
         public string StatusUpdateUrl { get; set; }
 
@@ -50,6 +49,7 @@ namespace MyBook.Models
         public int? ID { get; set; }
         public int? UserID { get; set; }
         public int? StatusID { get; set; }
+        public int? ClientID { get; set; }
         public string Status { get; set; }
         public string StatusColor { get; set; }
         public string Firstname { get; set; }
@@ -77,5 +77,66 @@ namespace MyBook.Models
         public int? ID { get; set; }
         public string BookName { get; set; }
         public string Price { get; set; }
+    }
+
+    public class OrderStatusUpdateViewModel
+    {
+        public List<SimpleKeyValue<int?, string>> Statuses { get; set; }
+        public int? StatusID { get; set; }
+
+        public string StatusSaveUrl { get; set; }
+
+    }
+
+    public class OrderPaperViewModel
+    {
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }
+        public string DeliveryTime { get; set; }
+        public string Note { get; set; }
+        public string Status { get; set; }
+
+        public GridViewModel Grid { get; set; }
+
+        public class GridViewModel : GridViewModelBase
+        {
+            public List<GridItem> GridItems { get; set; }
+
+            public class GridItem
+            {
+                public int? ID { get; set; }
+                public string BookName { get; set; }
+                public string Price { get; set; }
+
+            }
+        }
+    }
+
+    public class SoldBooksViewModel
+    {
+        public SoldBooksGridViewModel GridViewModel { get; set; }
+
+    }
+
+    public class SoldBooksGridViewModel : GridViewModelBase
+    {
+        public List<SoldBookGridItem> GridItems { get; set; }
+        public List<SimpleKeyValue<int?, string>> Clients { get; set; }
+
+        public string CreateOrderUrl { get; set; }
+
+    }
+
+    public class SoldBookGridItem
+    {
+        public int? ID { get; set; }
+        public string BookName { get; set; }
+        public string Price { get; set; }
+
+        public int? ClientID { get; set; }
+        public string Mobile { get; set; }
+
     }
 }

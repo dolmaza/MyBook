@@ -8,6 +8,7 @@ namespace Core
         public int? ID { get; set; }
         public int? UserID { get; set; }
         public int? StatusID { get; set; }
+        public int? ClientID { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Address { get; set; }
@@ -19,6 +20,7 @@ namespace Core
 
         public User User { get; set; }
         public Dictionary Status { get; set; }
+        public Client Client { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
