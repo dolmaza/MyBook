@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\images\book.ico" />
     <Content Include="Content\plugins\adminLTE\css\AdminLTE.min.css" />
     <Content Include="Content\plugins\adminLTE\css\skin-blue.min.css" />
     <Content Include="Content\plugins\adminLTE\img\avatar.png" />
@@ -168,6 +169,7 @@
     <Content Include="Content\plugins\bootstrap\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\plugins\bootstrap\js\npm.js" />
+    <Content Include="Content\plugins\bootbox\bootbox.min.js" />
     <Content Include="Content\plugins\fancybox\blank.gif" />
     <Content Include="Content\plugins\fancybox\fancybox_loading%402x.gif" />
     <Content Include="Content\plugins\fancybox\fancybox_loading.gif" />
@@ -199,6 +201,7 @@
     <Content Include="Content\plugins\jQuery\jquery.numeric-input.js" />
     <Content Include="Content\plugins\jQuery\masked-input.js" />
     <Content Include="Content\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\plugins\Validation\validation.js" />
     <Content Include="Content\scripts\Client\Index.js" />
     <Content Include="Content\scripts\Dictionary\Index.js" />
     <Content Include="Content\scripts\Order\Index.js" />
@@ -291,7 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
     <Folder Include="Reusables\Helpers\" />
   </ItemGroup>
   <ItemGroup>

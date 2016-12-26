@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Properties;
 using Core.Utilities;
+using Core.Validation;
 using DevExpress.Web.Mvc;
 using MyBook.Models;
 using SmartExpress.Reusable.Extentions;
@@ -175,50 +176,63 @@ namespace MyBook.Controllers
         public ActionResult OrdersEdit(OrdersFormViewModel model)
         {
             var ajaxResponse = new AjaxResponse();
-            model = GetOrderFormViewModel(model.ID, model);
-
-            if (model == null)
+            var errors = Validation.ValidateOrderEditForm(model.Firstname, model.Lastname, model.Address, model.Mobile, model.DeliveryTime);
+            if (errors.Count == 0)
             {
-                return NotFound();
-            }
-            else
-            {
+                model = GetOrderFormViewModel(model.ID, model);
 
-                UnitOfWork.OrderRepository.Update(new Order
-                {
-                    ID = model.ID,
-                    UserID = model.UserID,
-                    StatusID = model.StatusID,
-                    ClientID = model.ClientID,
-                    Firstname = model.Firstname,
-                    Lastname = model.Lastname,
-                    Address = model.Address,
-                    Mobile = model.Mobile,
-                    DeliveryTime = model.DeliveryTime.ToDateTime(),
-                    Note = model.Note
-                });
-
-                UnitOfWork.Complate();
-
-                if (UnitOfWork.IsError)
+                if (model == null)
                 {
                     ajaxResponse.Data = new
                     {
-                        Message = Resources.Abort
+                        RedirectUrl = Url.RouteUrl("NotFound")
                     };
                 }
                 else
                 {
-                    ajaxResponse.IsSuccess = true;
-                    ajaxResponse.Data = new
-                    {
-                        Message = Resources.Success
-                    };
-                }
 
-                return Json(ajaxResponse);
+                    UnitOfWork.OrderRepository.Update(new Order
+                    {
+                        ID = model.ID,
+                        UserID = model.UserID,
+                        StatusID = model.StatusID,
+                        ClientID = model.ClientID,
+                        Firstname = model.Firstname,
+                        Lastname = model.Lastname,
+                        Address = model.Address,
+                        Mobile = model.Mobile,
+                        DeliveryTime = model.DeliveryTime.ToDateTime(),
+                        Note = model.Note
+                    });
+
+                    UnitOfWork.Complate();
+
+                    if (UnitOfWork.IsError)
+                    {
+                        ajaxResponse.Data = new
+                        {
+                            Message = Resources.Abort
+                        };
+                    }
+                    else
+                    {
+                        ajaxResponse.IsSuccess = true;
+                        ajaxResponse.Data = new
+                        {
+                            Message = Resources.Success
+                        };
+                    }
+                }
+            }
+            else
+            {
+                ajaxResponse.Data = new
+                {
+                    ErrorsJson = errors.ToJson()
+                };
             }
 
+            return Json(ajaxResponse);
         }
 
         private OrdersFormViewModel GetOrderFormViewModel(int? orderID, OrdersFormViewModel model = null)

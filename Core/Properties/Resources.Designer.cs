@@ -115,11 +115,56 @@ namespace Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to მისამართის შეყვანა სავალდებულოა.
+        /// </summary>
+        public static string ValidationAddressRequired {
+            get {
+                return ResourceManager.GetString("ValidationAddressRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to თარიღის შეყვანა სავალდებულოა.
+        /// </summary>
+        public static string ValidationDeliveryTimeRequired {
+            get {
+                return ResourceManager.GetString("ValidationDeliveryTimeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to სახელის შეყვანა სავალდებულია.
+        /// </summary>
+        public static string ValidationFirstnameRequired {
+            get {
+                return ResourceManager.GetString("ValidationFirstnameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to სახელი ან პაროლი არასწორია.
         /// </summary>
         public static string ValidationInvalidUsernameOrPassword {
             get {
                 return ResourceManager.GetString("ValidationInvalidUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to გვარის შეყვანა სავალდებულოა.
+        /// </summary>
+        public static string ValidationLastnameRequired {
+            get {
+                return ResourceManager.GetString("ValidationLastnameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to მობილურის შეყვანა სავალდებულოა.
+        /// </summary>
+        public static string ValidationMobileRequired {
+            get {
+                return ResourceManager.GetString("ValidationMobileRequired", resourceCulture);
             }
         }
     }

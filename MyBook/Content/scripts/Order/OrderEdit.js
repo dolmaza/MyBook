@@ -1,20 +1,22 @@
-﻿$(function () {
+﻿$(function() {
 
-    $("#add-new-order-detail").click(function () {
-        OrderDetailsGrid.AddNewRow();
-        return false;
-    });
+    $("#add-new-order-detail")
+        .click(function() {
+            OrderDetailsGrid.AddNewRow();
+            return false;
+        });
 
 
-    $("#deliveryTime").datepicker({
-        dateFormat: formatDateJs,
-        minDate: 0 
-    });
+    $("#deliveryTime")
+        .datepicker({
+            dateFormat: formatDateJs,
+            minDate: 0
+        });
 
     $("#mobile").mask("(599)-999-999");
 
     $("#order-properties-save")
-        .click(function () {
+        .click(function() {
             var url = $(this).attr("href");
             var firstname = $("#firstname").val();
             var lastname = $("#lastname").val();
@@ -35,15 +37,25 @@
                     Note: note
                 },
                 dataType: "json",
-                success: function(response) {
+                beforeSend: function () {
+                    validation.hideErrors();
+                },
+                success: function (response) {
+                    var data = response.Data;
                     if (response.IsSuccess) {
-                        alert("success");
-                    } else {
-                        alert("error");
+                        bootbox.alert('<i class="fa fa-check"></i> ' + data.Message);
+                    } else if (data.Message) {
+                        bootbox.alert('<i class="fa fa-times"></i> ' + data.Message);
+                    } else if (data.RedirectUrl) {
+                        window.location = data.RedirectUrl;
+                    }else if (data.ErrorsJson) {
+                        validation.init({
+                                errorsJson: data.ErrorsJson
+                            }).showErrors();
                     }
                 }
             });
 
             return false;
         });
-})
+});

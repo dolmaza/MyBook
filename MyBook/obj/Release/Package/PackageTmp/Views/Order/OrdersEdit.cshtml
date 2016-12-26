@@ -29,37 +29,42 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group Code-1">
                             <label>სახელი</label>
                             <input type="text" class="form-control" value="@Model.Firstname" id="firstname"/>
+                            <span class="error-text"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group Code-2">
                             <label>გვარი</label>
                             <input type="text" class="form-control" value="@Model.Lastname" id="lastname" />
+                            <span class="error-text"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group Code-3">
                             <label>მისამართი</label>
                             <input type="text" class="form-control" value="@Model.Address" id="address" />
+                            <span class="error-text"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group Code-4">
                             <label>მობილური</label>
                             <input type="text" class="form-control" value="@Model.Mobile" id="mobile" />
+                            <span class="error-text"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group Code-5">
                             <label>ჩაბარების თარიღი</label>
                             <input type="text" class="form-control" value="@Model.DeliveryTime" id="deliveryTime" />
+                            <span class="error-text"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -90,7 +95,9 @@
     <script>
         var formatDateJs = "@Model.FormatDateJs"
     </script>
+    <script src="~/Content/plugins/bootbox/bootbox.min.js"></script>
     <script src="~/Content/plugins/jQuery/masked-input.js"></script>
+    <script src="~/Content/plugins/Validation/validation.js"></script>
     <script src="~/Content/plugins/jquery-ui-1.12.0/jquery-ui.min.js"></script>
     <script src="~/Content/scripts/Order/OrderEdit.js"></script>
 }

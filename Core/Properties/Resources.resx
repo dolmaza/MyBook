@@ -135,7 +135,22 @@
   <data name="TextConfirmDelete" xml:space="preserve">
     <value>ნამდვილად გსურთ წაშლა?</value>
   </data>
+  <data name="ValidationAddressRequired" xml:space="preserve">
+    <value>მისამართის შეყვანა სავალდებულოა</value>
+  </data>
+  <data name="ValidationDeliveryTimeRequired" xml:space="preserve">
+    <value>თარიღის შეყვანა სავალდებულოა</value>
+  </data>
+  <data name="ValidationFirstnameRequired" xml:space="preserve">
+    <value>სახელის შეყვანა სავალდებულია</value>
+  </data>
   <data name="ValidationInvalidUsernameOrPassword" xml:space="preserve">
     <value>სახელი ან პაროლი არასწორია</value>
+  </data>
+  <data name="ValidationLastnameRequired" xml:space="preserve">
+    <value>გვარის შეყვანა სავალდებულოა</value>
+  </data>
+  <data name="ValidationMobileRequired" xml:space="preserve">
+    <value>მობილურის შეყვანა სავალდებულოა</value>
   </data>
 </root>

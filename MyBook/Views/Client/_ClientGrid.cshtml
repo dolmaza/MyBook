@@ -24,6 +24,11 @@
         column.Caption = "სახელი";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
     });
 
     settings.Columns.Add(column =>
@@ -32,6 +37,11 @@
         column.Caption = "გვარი";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
     });
 
     settings.Columns.Add(column =>
@@ -40,6 +50,11 @@
         column.Caption = "მისამართი";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = Unit.Pixel(150);
+
+        column.EditorProperties().TextBox(c =>
+        {
+            c.ValidationSettings.RequiredField.IsRequired = true;
+        });
     });
 
     settings.Columns.Add(column =>

@@ -2,6 +2,7 @@
 
 
 .fa-minus-circle,
+.fa-times,
 .fa-trash-o {
     color: #d9534f;
 }
@@ -35,3 +36,7 @@
     color: chocolate;
 }
 /*--------- End Icons -----------*/
+
+.error-text {
+    color: #d9534f;
+}

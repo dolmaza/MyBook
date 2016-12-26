@@ -13,9 +13,9 @@
             dataType: "json",
             success: function (response) {
                 if (response.IsSuccess) {
-                    alert("Success");
+                    bootbox.alert('<i class="fa fa-check"></i> ' + response.Data.Message);
                 } else {
-                    alert("Error");
+                    bootbox.alert('<i class="fa fa-times"></i> ' + response.Data.Message);
                 }
             }
         });
