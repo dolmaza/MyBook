@@ -202,6 +202,7 @@
     <Content Include="Content\plugins\jQuery\masked-input.js" />
     <Content Include="Content\plugins\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="Content\plugins\Validation\validation.js" />
+    <Content Include="Content\scripts\Client\ClientBooks.js" />
     <Content Include="Content\scripts\Client\Index.js" />
     <Content Include="Content\scripts\Dictionary\Index.js" />
     <Content Include="Content\scripts\Order\Index.js" />
@@ -285,6 +286,8 @@
     <Content Include="Views\Order\SoldBooks.cshtml" />
     <Content Include="Views\Order\_SoldBooksGrid.cshtml" />
     <None Include="Properties\PublishProfiles\gayide - Web Deploy.pubxml" />
+    <Content Include="Views\Client\ClientBooks.cshtml" />
+    <Content Include="Views\Client\_ClientBooksGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

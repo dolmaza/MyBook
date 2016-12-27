@@ -4,6 +4,7 @@ using Core.Utilities;
 using DevExpress.Web.Mvc;
 using MyBook.Models;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -113,13 +114,53 @@ namespace MyBook.Controllers
                     Firstname = c.Firstname,
                     Lastname = c.Lastname,
                     Address = c.Address,
-                    Mobile = c.Mobile
+                    Mobile = c.Mobile,
+                    ClientBooksUrl = Url.RouteUrl("ClientBooks", new { clientID = c.ID })
                 }).ToList(),
 
                 Statuses = statuses.Select(s => new SimpleKeyValue<int?, string>
                 {
                     Key = s.ID,
                     Value = s.Caption
+                }).ToList()
+            };
+        }
+
+        [Route("clients/{clientID}/books", Name = "ClientBooks")]
+        public ActionResult ClientBooks(int? clientID)
+        {
+            var model = new ClientBooksViewModel
+            {
+                GridViewModel = GetClientBooksGridViewModel(clientID)
+            };
+
+            return View(model);
+        }
+
+        [Route("clients/{clientID}/books/grid", Name = "ClientBooksGrid")]
+        public ActionResult ClientBooksGrid(int? clientID)
+        {
+            return PartialView("_ClientBooksGrid", GetClientBooksGridViewModel(clientID));
+        }
+
+        private ClientBooksGridViewModel GetClientBooksGridViewModel(int? clientID)
+        {
+            var books = UnitOfWork.OrderDetailRepository.GetAll()
+                .Include(o => o.Order)
+                .Include(o => o.Order.Status)
+                .Where(o => o.Order.Status.IntCode == OrderStatus.COMPLATED && o.Order.ClientID == clientID)
+                .OrderByDescending(o => o.CreateTime)
+                .ToList();
+            UnitOfWork.Dispose();
+
+            return new ClientBooksGridViewModel
+            {
+                ListUrl = Url.RouteUrl("ClientBooksGrid", new { clientID = clientID }),
+                GridItems = books.Select(b => new ClientBookGridItem
+                {
+                    ID = b.ID,
+                    BookName = b.BookName,
+                    Price = $"{b.Price:0.00}"
                 }).ToList()
             };
         }

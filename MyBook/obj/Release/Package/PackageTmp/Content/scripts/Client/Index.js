@@ -28,4 +28,20 @@
 
             return false;
         });
+
+
+    $("#clients-grid")
+        .on("click", ".client-books", function () {
+            var url = $(this).attr("href");
+            
+            FancyBox.Init({
+                href: url,
+                width: 800,
+                height: 437,
+                closeBtn: false
+            }).ShowPopup();
+
+            return false;
+        });
+
 });

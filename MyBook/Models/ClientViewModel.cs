@@ -28,5 +28,27 @@ namespace MyBook.Models
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string Mobile { get; set; }
+
+        public string ClientBooksUrl { get; set; }
+    }
+
+    public class ClientBooksViewModel
+    {
+        public ClientBooksGridViewModel GridViewModel { get; set; }
+
+    }
+
+    public class ClientBooksGridViewModel : GridViewModelBase
+    {
+        public List<ClientBookGridItem> GridItems { get; set; }
+
+    }
+
+    public class ClientBookGridItem
+    {
+        public int? ID { get; set; }
+        public string BookName { get; set; }
+        public string Price { get; set; }
+
     }
 }

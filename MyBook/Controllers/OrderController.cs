@@ -51,8 +51,20 @@ namespace MyBook.Controllers
         private OrderGridViewModel GetOrderGridViewModel()
         {
             var orders = UserItem.Role.Code == RoleCode.ADMIN ?
-                UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList() :
-                UnitOfWork.OrderRepository.GetAll().Include(o => o.OrderDetails).Where(o => o.UserID == UserItem.ID).OrderByDescending(o => o.CreateTime).AsNoTracking().ToList();
+                UnitOfWork.OrderRepository.GetAll()
+                .Include(o => o.OrderDetails)
+                .OrderByDescending(o => o.CreateTime)
+                .AsNoTracking()
+                .ToList() :
+                UnitOfWork.OrderRepository.GetAll()
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Status)
+                .Where(o => o.UserID == UserItem.ID)
+                .OrderByDescending(o => o.CreateTime)
+                .AsNoTracking()
+                .ToList();
+
+
             return new OrderGridViewModel
             {
                 ListUrl = Url.RouteUrl("OrderGrid"),
@@ -73,6 +85,8 @@ namespace MyBook.Controllers
                     Note = o.Note,
                     DeliveryTime = o.DeliveryTime?.ToString(Resources.FormatDate),
                     CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
+
+                    IsAllowedToEditOrder = (UserItem.Role.Code == RoleCode.ADMIN) || UserItem.Role.Code != RoleCode.ADMIN && o.Status.IntCode == OrderStatus.PENDING,
 
                     EdutUrl = Url.RouteUrl("OrdersEdit", new { ID = o.ID }),
                     PaperUrl = Url.RouteUrl("OrderPaper", new { orderID = o.ID }),
@@ -238,7 +252,7 @@ namespace MyBook.Controllers
         private OrdersFormViewModel GetOrderFormViewModel(int? orderID, OrdersFormViewModel model = null)
         {
             var order = UnitOfWork.OrderRepository.GetWithStatus(orderID);
-            if (order == null)
+            if (order == null || (UserItem.Role.Code == RoleCode.BROCKER && order.Status.IntCode != OrderStatus.PENDING))
             {
                 return null;
             }

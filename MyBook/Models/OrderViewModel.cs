@@ -39,6 +39,7 @@ namespace MyBook.Models
         public string CreateTime { get; set; }
 
         public string PaperUrl { get; set; }
+        public bool IsAllowedToEditOrder { get; set; }
         public string EdutUrl { get; set; }
         public string StatusUpdateUrl { get; set; }
 

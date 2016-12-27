@@ -4,6 +4,7 @@
 }
 
 @section HeaderSection {
+    <link href="~/Content/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" />
     @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
     @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
 }
@@ -31,5 +32,7 @@
 </div>
 
 @section FooterSection {
+    <script src="~/Content/plugins/fancybox/jquery.fancybox.js"></script>
+    <script src="~/Content/plugins/fancybox/FancyMethods.js"></script>
     <script src="~/Content/scripts/Client/Index.js"></script>
 }

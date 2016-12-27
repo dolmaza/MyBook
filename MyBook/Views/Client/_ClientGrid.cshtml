@@ -110,9 +110,9 @@
         column.Width = Unit.Pixel(35);
         column.SetDataItemTemplateContent(c =>
         {
-            var clientID = DataBinder.Eval(c.DataItem, "ID");
+            var clientBooksUrl = DataBinder.Eval(c.DataItem, "ClientBooksUrl");
 
-            ViewContext.Writer.Write($"<a href='#' class='create-order' data-client-id='{clientID}'><i class='fa fa-book'></i></a>");
+            ViewContext.Writer.Write($"<a href='{clientBooksUrl}' class='client-books'><i class='fa fa-book'></i></a>");
         });
 
         column.SetEditItemTemplateContent(" ");

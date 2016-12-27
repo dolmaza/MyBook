@@ -35,7 +35,11 @@
         column.SetDataItemTemplateContent(c =>
         {
             var editUrl = DataBinder.Eval(c.DataItem, "EdutUrl");
-            ViewContext.Writer.Write($"<a href='{editUrl}'><i class='fa fa-pencil-square'></i></a>");
+            var isAllowedToEditOrder = DataBinder.Eval(c.DataItem, "IsAllowedToEditOrder");
+            if ((bool) isAllowedToEditOrder)
+            {
+                ViewContext.Writer.Write($"<a href='{editUrl}'><i class='fa fa-pencil-square'></i></a>");
+            }
         });
     });
 

@@ -1,0 +1,21 @@
+﻿@model ClientBooksViewModel
+@{
+    ViewBag.Title = "კლიენტის ნაყიდი წიგნები";
+    Layout = "~/Views/Shared/_PopupLayout.cshtml";
+}
+
+@section HeaderSection {
+    
+    @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
+    @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_ClientBooksGrid", Model.GridViewModel)
+    </div>
+</div>
+
+@section FooterSection {
+    <script src="~/Content/scripts/Client/ClientBooks.js"></script>
+}
