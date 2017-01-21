@@ -16,6 +16,7 @@ namespace Core
         public decimal? TotalPrice { get; set; }
         public DateTime? DeliveryTime { get; set; }
         public string Note { get; set; }
+        public bool IsArchived { get; set; }
         public DateTime? CreateTime { get; set; }
 
         public User User { get; set; }

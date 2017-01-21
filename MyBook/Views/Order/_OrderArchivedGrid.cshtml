@@ -1,8 +1,8 @@
-﻿@model OrderGridViewModel
+﻿@model OrderArchivedGridViewModel
 @Html.DevExpress().GridView(settings =>
 {
     settings = Model.GenerateGridViewDefaultSettings(settings);
-    settings.Name = "OrderGrid";
+    settings.Name = "OrderArchivedGrid";
     settings.KeyFieldName = "ID";
 
 
@@ -11,7 +11,6 @@
 
         settings.CommandColumn.Width = Unit.Pixel(60);
         settings.CommandColumn.VisibleIndex = 0;
-        settings.CommandColumn.ShowDeleteButton = true;
         settings.CommandColumn.Visible = true;
         settings.CommandColumn.ShowSelectCheckbox = true;
         settings.CommandColumn.ShowClearFilterButton = true;
@@ -32,52 +31,6 @@
             var paperUrl = DataBinder.Eval(c.DataItem, "PaperUrl");
             ViewContext.Writer.Write($"<a href='{paperUrl}' class='order-paper'><i class='fa fa-info-circle'></i></a>");
         });
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.Width = Unit.Pixel(30);
-        column.SetDataItemTemplateContent(c =>
-        {
-            var editUrl = DataBinder.Eval(c.DataItem, "EdutUrl");
-            var isAllowedToEditOrder = DataBinder.Eval(c.DataItem, "IsAllowedToEditOrder");
-            if ((bool) isAllowedToEditOrder)
-            {
-                ViewContext.Writer.Write($"<a href='{editUrl}'><i class='fa fa-pencil-square'></i></a>");
-            }
-        });
-    });
-
-    if (Model.IsAllowedToChangeStatus)
-    {
-        settings.Columns.Add(column =>
-        {
-            column.Width = Unit.Pixel(160);
-            column.SetDataItemTemplateContent(c =>
-            {
-                var statusUpdateUrl = DataBinder.Eval(c.DataItem, "StatusUpdateUrl");
-
-                ViewContext.Writer.Write($"<a href='{statusUpdateUrl}' class='btn btn-xs btn-default order-status-change-button'><i class='fa fa-check'></i> სტატუსის შეცვლა</a>");
-            });
-        });
-    }
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "StatusID";
-        column.Caption = "სტატუსი";
-        column.ColumnType = MVCxGridViewColumnType.ComboBox;
-        column.Width = Unit.Pixel(150);
-
-        column.EditorProperties().ComboBox(c =>
-        {
-            c.DataSource = Model.Statuses;
-            c.ValueField = "Key";
-            c.TextField = "Value";
-            c.ValueType = typeof(int?);
-            c.ValidationSettings.RequiredField.IsRequired = true;
-        });
-
     });
 
     if (Model.ShowUserColumn)

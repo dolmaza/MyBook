@@ -21,3 +21,4 @@ C:\Mvc Projects\MyBook\Core\obj\Release\Core.Properties.Resources.resources
 C:\Mvc Projects\MyBook\Core\obj\Release\Core.csproj.GenerateResource.Cache
 C:\Mvc Projects\MyBook\Core\obj\Release\Core.dll
 C:\Mvc Projects\MyBook\Core\obj\Release\Core.pdb
+C:\Mvc Projects\MyBook\Core\obj\Release\Core.Migrations.AddIsArchivedColumnToOrdersTable.resources

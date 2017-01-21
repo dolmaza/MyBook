@@ -8,6 +8,9 @@ namespace MyBook.Models
     {
         public OrderGridViewModel GridViewModel { get; set; }
 
+        public bool IsAllowedToArchiveOrders { get; set; }
+        public string ArchiveOrdersUrl { get; set; }
+
         public string AddNewOrderUrl { get; set; }
 
     }
@@ -42,6 +45,43 @@ namespace MyBook.Models
         public bool IsAllowedToEditOrder { get; set; }
         public string EdutUrl { get; set; }
         public string StatusUpdateUrl { get; set; }
+
+    }
+
+    public class OrderArchivedViewModel
+    {
+        public OrderArchivedGridViewModel GridViewModel { get; set; }
+
+        public bool IsAllowedToUnArchiveOrders { get; set; }
+        public string UnArchiveOrdersUrl { get; set; }
+
+
+    }
+
+    public class OrderArchivedGridViewModel : GridViewModelBase
+    {
+        public List<OrderArchivedGridItem> GridItems { get; set; }
+        public List<SimpleKeyValue<int?, string>> Users { get; set; }
+
+        public bool ShowUserColumn { get; set; }
+        public bool IsAllowedToDeleteOrder { get; set; }
+
+    }
+
+    public class OrderArchivedGridItem
+    {
+        public int? ID { get; set; }
+        public int? UserID { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Address { get; set; }
+        public string Mobile { get; set; }
+        public string TotalPrice { get; set; }
+        public string DeliveryTime { get; set; }
+        public string Note { get; set; }
+        public string CreateTime { get; set; }
+
+        public string PaperUrl { get; set; }
 
     }
 

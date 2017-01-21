@@ -206,6 +206,7 @@
     <Content Include="Content\scripts\Client\Index.js" />
     <Content Include="Content\scripts\Dictionary\Index.js" />
     <Content Include="Content\scripts\Order\Index.js" />
+    <Content Include="Content\scripts\Order\OrderArchived.js" />
     <Content Include="Content\scripts\Order\OrderEdit.js" />
     <Content Include="Content\scripts\Order\OrderPaper.js" />
     <Content Include="Content\scripts\Order\OrderStatusChange.js" />
@@ -288,6 +289,8 @@
     <None Include="Properties\PublishProfiles\gayide - Web Deploy.pubxml" />
     <Content Include="Views\Client\ClientBooks.cshtml" />
     <Content Include="Views\Client\_ClientBooksGrid.cshtml" />
+    <Content Include="Views\Order\OrdersArchived.cshtml" />
+    <Content Include="Views\Order\_OrderArchivedGrid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

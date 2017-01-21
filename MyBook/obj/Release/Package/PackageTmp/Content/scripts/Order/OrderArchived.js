@@ -1,42 +1,26 @@
-﻿$(function() {
-    $('#orders-grid')
-        .on('click',
-            '.order-status-change-button',
-            function() {
-                var url = $(this).attr('href');
-
-                FancyBox.Init({
-                        href: url,
-                        width: 500,
-                        height: 227,
-                        closeBtn: false
-                    })
-                    .ShowPopup();
-
-                return false;
-            });
-
+﻿$(function () {
+    
     $('#orders-grid')
         .on('click',
             '.order-paper',
-            function() {
+            function () {
                 var url = $(this).attr('href');
 
                 FancyBox.Init({
-                        href: url,
-                        width: 800,
-                        height: 540,
-                        closeBtn: false
-                    })
+                    href: url,
+                    width: 800,
+                    height: 540,
+                    closeBtn: false
+                })
                     .ShowPopup();
 
                 return false;
             });
 
-    $('#archive-orders')
+    $('#unarchive-orders')
         .click(function () {
             var url = $(this).attr('data-url');
-            var orderIDs = OrderGrid.GetSelectedKeysOnPage();
+            var orderIDs = OrderArchivedGrid.GetSelectedKeysOnPage();
 
             $.ajax({
                 type: 'POST',
@@ -45,9 +29,9 @@
                     orderIDs: orderIDs
                 },
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     if (response.IsSuccess) {
-                        OrderGrid.Refresh();
+                        OrderArchivedGrid.Refresh();
                         bootbox.alert('<i class="fa fa-check"></i> ' + response.Data.Message);
                     } else {
                         bootbox.alert('<i class="fa fa-times"></i> ' + response.Data.Message);

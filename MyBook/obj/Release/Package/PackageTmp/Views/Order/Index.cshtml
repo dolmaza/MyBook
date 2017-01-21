@@ -7,6 +7,16 @@
     <link href="~/Content/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" />
     @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
     @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
+    <script>
+        function onSelectionChanged(s, e) {
+
+            if (OrderGrid.GetSelectedRowCount() > 0) {
+                $('#archive-orders').removeAttr('disabled');
+            } else {
+                $('#archive-orders').attr('disabled', 'disabled');
+            }
+        }
+    </script>
 }
 
 @section Breadcramps{
@@ -19,6 +29,10 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
+                @if (Model.IsAllowedToArchiveOrders)
+                {
+                    <button disabled="disabled" id="archive-orders" data-url="@Model.ArchiveOrdersUrl" class="btn btn-flat btn-sm btn-warning"><i class="fa fa-archive"></i> დაარქივება</button>
+                }
                 <div class="box-tools pull-right">
 
                 </div>
@@ -32,6 +46,7 @@
 
 @section FooterSection {
     <script src="~/Content/plugins/fancybox/jquery.fancybox.js"></script>
+    <script src="~/Content/plugins/bootbox/bootbox.min.js"></script>
     <script src="~/Content/plugins/fancybox/FancyMethods.js"></script>
     <script src="~/Content/scripts/Order/Index.js"></script>
 }

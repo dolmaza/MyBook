@@ -42,3 +42,4 @@ C:\Mvc Projects\MyBook\Core\obj\Debug\Core.pdb
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.AddClientsTableAndConfiguration.resources
 C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.AddRelationUserClients.resources
+C:\Mvc Projects\MyBook\Core\obj\Debug\Core.Migrations.AddIsArchivedColumnToOrdersTable.resources

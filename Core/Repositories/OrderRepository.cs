@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Core.Repositories
@@ -7,6 +8,8 @@ namespace Core.Repositories
     {
         Order GetWithStatus(int? ID);
         Order GetOrderPaper(int? ID);
+        void OrdersArchive(List<int?> orderIDs);
+        void OrdersUnArchive(List<int?> orderIDs);
     }
 
     public class OrderRepository : Repository<Order>, IOrderRepository
@@ -29,6 +32,29 @@ namespace Core.Repositories
                 .Include(o => o.OrderDetails)
                 .AsNoTracking()
                 .SingleOrDefault(o => o.ID == ID);
+        }
+
+        public void OrdersArchive(List<int?> orderIDs)
+        {
+            var orders = GetAll().Where(p => orderIDs.Contains(p.ID ?? 0)).ToList();
+
+            orders.ForEach(o =>
+            {
+                o.IsArchived = true;
+                Update(o);
+            });
+
+        }
+        public void OrdersUnArchive(List<int?> orderIDs)
+        {
+            var orders = GetAll().Where(p => orderIDs.Contains(p.ID ?? 0)).ToList();
+
+            orders.ForEach(o =>
+            {
+                o.IsArchived = false;
+                Update(o);
+            });
+
         }
     }
 }

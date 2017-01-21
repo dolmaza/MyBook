@@ -1,19 +1,19 @@
-﻿@model OrderViewModel
+﻿@model OrderArchivedViewModel
 @{
-    ViewBag.Title = "შეკვეთები";
+    ViewBag.Title = "დაარქივებული შეკვეთები";
 }
-
 @section HeaderSection {
+
     <link href="~/Content/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" />
     @Html.DevExpress().GetStyleSheets(new StyleSheet { ExtensionSuite = ExtensionSuite.GridView })
     @Html.DevExpress().GetScripts(new Script { ExtensionSuite = ExtensionSuite.GridView })
     <script>
         function onSelectionChanged(s, e) {
 
-            if (OrderGrid.GetSelectedRowCount() > 0) {
-                $('#archive-orders').removeAttr('disabled');
+            if (OrderArchivedGrid.GetSelectedRowCount() > 0) {
+                $('#unarchive-orders').removeAttr('disabled');
             } else {
-                $('#archive-orders').attr('disabled', 'disabled');
+                $('#unarchive-orders').attr('disabled', 'disabled');
             }
         }
     </script>
@@ -29,16 +29,16 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
-                @if (Model.IsAllowedToArchiveOrders)
+                @if (Model.IsAllowedToUnArchiveOrders)
                 {
-                    <button disabled="disabled" id="archive-orders" data-url="@Model.ArchiveOrdersUrl" class="btn btn-flat btn-sm btn-warning"><i class="fa fa-archive"></i> დაარქივება</button>
+                    <button disabled="disabled" id="unarchive-orders" data-url="@Model.UnArchiveOrdersUrl" class="btn btn-flat btn-sm btn-success"><i class="fa fa-archive"></i> არქივიდან ამოღება</button>
                 }
                 <div class="box-tools pull-right">
 
                 </div>
             </div>
             <div class="box-body">
-                @Html.Partial("_OrderGrid", Model.GridViewModel)
+                @Html.Partial("_OrderArchivedGrid", Model.GridViewModel)
             </div>
         </div>
     </div>
@@ -48,5 +48,5 @@
     <script src="~/Content/plugins/fancybox/jquery.fancybox.js"></script>
     <script src="~/Content/plugins/bootbox/bootbox.min.js"></script>
     <script src="~/Content/plugins/fancybox/FancyMethods.js"></script>
-    <script src="~/Content/scripts/Order/Index.js"></script>
+    <script src="~/Content/scripts/Order/OrderArchived.js"></script>
 }

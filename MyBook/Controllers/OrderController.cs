@@ -6,6 +6,7 @@ using DevExpress.Web.Mvc;
 using MyBook.Models;
 using SmartExpress.Reusable.Extentions;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,6 +23,8 @@ namespace MyBook.Controllers
             var model = new OrderViewModel
             {
                 GridViewModel = GetOrderGridViewModel(),
+                IsAllowedToArchiveOrders = UserItem.Role.Code == RoleCode.ADMIN,
+                ArchiveOrdersUrl = Url.RouteUrl("OrdersArchive")
             };
 
             return View(model);
@@ -31,6 +34,44 @@ namespace MyBook.Controllers
         public ActionResult OrderGrid()
         {
             return PartialView("_OrderGrid", GetOrderGridViewModel());
+        }
+
+        [Route("orders/archive", Name = "OrdersArchive")]
+        public ActionResult OrdersArchive(List<int?> orderIDs)
+        {
+            var ajaxResponse = new AjaxResponse();
+
+            if (orderIDs == null || orderIDs.Count == 0)
+            {
+                ajaxResponse.Data = new
+                {
+                    Message = Resources.Abort
+                };
+            }
+            else
+            {
+                UnitOfWork.OrderRepository.OrdersArchive(orderIDs);
+                UnitOfWork.Complate();
+
+                if (UnitOfWork.IsError)
+                {
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Abort
+                    };
+                }
+                else
+                {
+                    ajaxResponse.IsSuccess = true;
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Success
+                    };
+                }
+
+            }
+
+            return Json(ajaxResponse);
         }
 
         [Route("orders/delete", Name = "OrdersDelete")]
@@ -53,13 +94,14 @@ namespace MyBook.Controllers
             var orders = UserItem.Role.Code == RoleCode.ADMIN ?
                 UnitOfWork.OrderRepository.GetAll()
                 .Include(o => o.OrderDetails)
+                .Where(o => !o.IsArchived)
                 .OrderByDescending(o => o.CreateTime)
                 .AsNoTracking()
                 .ToList() :
                 UnitOfWork.OrderRepository.GetAll()
                 .Include(o => o.OrderDetails)
                 .Include(o => o.Status)
-                .Where(o => o.UserID == UserItem.ID)
+                .Where(o => o.UserID == UserItem.ID && !o.IsArchived)
                 .OrderByDescending(o => o.CreateTime)
                 .AsNoTracking()
                 .ToList();
@@ -102,6 +144,110 @@ namespace MyBook.Controllers
                 {
                     Key = s.ID,
                     Value = s.Caption
+                }).ToList()
+            };
+        }
+
+        [Route("orders/archived", Name = "OrdersArchvied")]
+        public ActionResult OrdersArchived()
+        {
+            var model = new OrderArchivedViewModel
+            {
+                GridViewModel = GetOrderArchivedGridViewModel(),
+                IsAllowedToUnArchiveOrders = UserItem.Role.Code == RoleCode.ADMIN,
+                UnArchiveOrdersUrl = Url.RouteUrl("OrdersUnArchive")
+            };
+
+            return View(model);
+        }
+
+        [Route("orders/archived/grid", Name = "OrdersArchivedGrid")]
+        public ActionResult OrdersArchivedGrid()
+        {
+            return PartialView("_OrderArchivedGrid", GetOrderArchivedGridViewModel());
+        }
+
+        [Route("orders/unarchive", Name = "OrdersUnArchive")]
+        public ActionResult OrderUnArchive(List<int?> orderIDs)
+        {
+            var ajaxResponse = new AjaxResponse();
+
+            if (orderIDs == null || orderIDs.Count == 0)
+            {
+                ajaxResponse.Data = new
+                {
+                    Message = Resources.Abort
+                };
+            }
+            else
+            {
+                UnitOfWork.OrderRepository.OrdersUnArchive(orderIDs);
+                UnitOfWork.Complate();
+
+                if (UnitOfWork.IsError)
+                {
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Abort
+                    };
+                }
+                else
+                {
+                    ajaxResponse.IsSuccess = true;
+                    ajaxResponse.Data = new
+                    {
+                        Message = Resources.Success
+                    };
+                }
+
+            }
+
+            return Json(ajaxResponse);
+        }
+
+
+        private OrderArchivedGridViewModel GetOrderArchivedGridViewModel()
+        {
+            var orders = UserItem.Role.Code == RoleCode.ADMIN ?
+                UnitOfWork.OrderRepository.GetAll()
+                .Include(o => o.OrderDetails)
+                .Where(o => o.IsArchived)
+                .OrderByDescending(o => o.CreateTime)
+                .AsNoTracking()
+                .ToList() :
+                UnitOfWork.OrderRepository.GetAll()
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Status)
+                .Where(o => o.UserID == UserItem.ID && o.IsArchived)
+                .OrderByDescending(o => o.CreateTime)
+                .AsNoTracking()
+                .ToList();
+
+
+            return new OrderArchivedGridViewModel
+            {
+                ListUrl = Url.RouteUrl("OrdersArchivedGrid"),
+                ShowUserColumn = UserItem.Role.Code == RoleCode.ADMIN,
+                IsAllowedToDeleteOrder = UserItem.HasUserPermission(Url.RouteUrl("OrdersDelete")),
+                GridItems = orders.Select(o => new OrderArchivedGridItem
+                {
+                    ID = o.ID,
+                    Firstname = o.Firstname,
+                    Lastname = o.Lastname,
+                    Address = o.Address,
+                    Mobile = o.Mobile,
+                    UserID = o.UserID,
+                    TotalPrice = $"{o.OrderDetails.Sum(od => od.Price):0.00}",
+                    Note = o.Note,
+                    DeliveryTime = o.DeliveryTime?.ToString(Resources.FormatDate),
+                    CreateTime = o.CreateTime?.ToString(Resources.FormatDate),
+                    PaperUrl = Url.RouteUrl("OrderPaper", new { orderID = o.ID }),
+                }).ToList(),
+
+                Users = UnitOfWork.UserRepository.GetAll().ToList().Select(u => new SimpleKeyValue<int?, string>
+                {
+                    Key = u.ID,
+                    Value = $"{u.Firstname} {u.Lastname}"
                 }).ToList()
             };
         }

@@ -5,14 +5,19 @@
     settings.Name = "OrderGrid";
     settings.KeyFieldName = "ID";
 
+
     if (Model.IsAllowedToDeleteOrder)
     {
-        settings.CommandColumn.Visible = true;
-        settings.CommandColumn.Width = Unit.Pixel(30);
+
+        settings.CommandColumn.Width = Unit.Pixel(60);
         settings.CommandColumn.VisibleIndex = 0;
         settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
         settings.SettingsEditing.DeleteRowRouteValues = Model.DeleteUrl;
-
+        settings.ClientSideEvents.SelectionChanged = "function(s,e){ onSelectionChanged(s,e); }";
     }
 
 
